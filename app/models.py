@@ -42,6 +42,7 @@ class Articulo(models.Model):
     text_desct = models.CharField(max_length=100, help_text="Texto descriptivo del artículo")
     estado = models.PositiveSmallIntegerField(ESTADOS, help_text="Estado posible para un articulo o espacio")
 
+
     #Meta
     class Meta:
         ordering = ["id"]
@@ -74,6 +75,7 @@ class Espacio(models.Model):
         return self.id
 
 class PedidoArticulo(models.Model):
+
     PENDIENTE = 1
     RECHAZADA = 2
     CONCRETADA = 3
