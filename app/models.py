@@ -26,7 +26,7 @@ class Articulo(models.Model):
     nombre = models.CharField(max_length=100, help_text="Nombre del artículo")
     link_foto = models.CharField(max_length=100, help_text="Link a la foto del artículo")
     text_desct = models.CharField(max_length=100, help_text="Texto descriptivo del artículo")
-    estado = models.ForeignKey('Estado', on_delete=models.SET_NULL, null=False)
+    estado = models.ForeignKey('Estado', on_delete=models.CASCADE, null=False)
 
     #Meta
     #class Meta:
@@ -42,7 +42,7 @@ class Espacio(models.Model):
     nombre = models.CharField(max_length=100, help_text="Nombre del espacio")
     link_foto = models.CharField(max_length=100, help_text="Link a la foto del espacio")
     text_desct = models.CharField(max_length=100, help_text="Texto descriptivo del espacio")
-    estado = models.ForeignKey('Estado', on_delete=models.SET_NULL)
+    estado = models.ForeignKey('Estado', on_delete=models.CASCADE)
 
     #class Meta:
 
@@ -57,15 +57,15 @@ class Estado(models.Model):
     estado = models.CharField(max_length=100, help_text="Estado posible para un articulo o espacio")
 
 class PedidoArticulo(models.Model):
-    rut_usuario = models.ForeignKey('Usuario', on_delete=models.SET_NULL)
-    id_articulo = models.ForeignKey('Articulo', on_delete=models.SET_NULL)
+    rut_usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE)
+    id_articulo = models.ForeignKey('Articulo', on_delete=models.CASCADE)
     fecha_pedido = models.DateField(auto_now_add=True)
     fecha_devolucion = models.DateField(null=True)
-    estado = models.ForeignKey('Estado', on_delete=models.SET_NULL)
+    estado = models.ForeignKey('Estado', on_delete=models.CASCADE)
 
 class PedidoEspacio(models.Model):
-    rut_usuario = models.ForeignKey('Usuario', on_delete=models.SET_NULL)
-    id_espacio = models.ForeignKey('Espacio', on_delete=models.SET_NULL)
+    rut_usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE)
+    id_espacio = models.ForeignKey('Espacio', on_delete=models.CASCADE)
     fecha_pedido = models.DateField(auto_now_add=True)
     fecha_devolucion = models.DateField(null=True)
-    estado = models.ForeignKey('Estado', on_delete=models.SET_NULL)
+    estado = models.ForeignKey('Estado', on_delete=models.CASCADE)
