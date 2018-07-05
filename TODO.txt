@@ -1,0 +1,21 @@
+Cosas por hacer:
+[Pls marcar con "✓" las cosas ya hechas, le da estilo]
+
+LP Users:
+    - Buscador de artículos [Diapos 4 y 5]
+    - Grilla de espacios [Diapo 6]
+
+Perfil Usuario:
+    - Sólo la vista generada para el mismo usuario [Diapo 10]
+    Obs: No tiene espacio para cambiar contraseña,
+
+Ficha artículos:
+    - [Diapo 14]
+
+Ficha espacios:
+    - Para hacer en Tarea 4 (yey!) [No tiene diapo :c]
+
+LP Admins:
+    - Página de Users [Diapo 18]
+    - Página de Artículos [Diapo 19]
+    - Página de Espacios [Diapo 20]
