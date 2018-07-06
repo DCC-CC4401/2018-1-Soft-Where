@@ -1,13 +1,18 @@
 Cosas por hacer:
 [Pls marcar con "✓" las cosas ya hechas, le da estilo]
 
+General:
+	- Página de Login. (User sin haber iniciado sesión)
+	- Página de Registro. (Inserte nombre...)
+
 LP Users:
     - Buscador de artículos [Diapos 4 y 5]
+    - Resultados de búsqueda.
     - Grilla de espacios [Diapo 6]
 
 Perfil Usuario:
     - Sólo la vista generada para el mismo usuario [Diapo 10]
-    Obs: No tiene espacio para cambiar contraseña,
+    Obs: No tiene espacio para cambiar contraseña.
 
 Ficha artículos:
     - [Diapo 14]
