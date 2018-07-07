@@ -27,6 +27,12 @@
         }
     </style>
 
+    {% block specificjs %}
+    {% endblock %}
+
+    {% block specificcss %}
+    {% endblock %}
+
 </head>
 
 <body>
@@ -53,7 +59,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="border border-dark rounded-circle" style="margin-left: 20px; background-color: #FFF">
+                    <div class="border border-dark rounded-circle ml-3" style="background-color: #FFF;">
                         <i class="fa fa-user border-secondary" style="font-size: 40px; padding: 20px;"></i>
                     </div>
                 </li>
@@ -71,8 +77,10 @@
         </div>
     </nav>
 
-    {% block cuerpo %}
-    {% endblock cuerpo %}
+    <div class="container-fluid">
+        {% block cuerpo %}
+        {% endblock %}
+    </div>
 
 </body>
 </html>
