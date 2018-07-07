@@ -1,14 +1,15 @@
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from app.models import Articulo
+import json
 
 # Muestra el indice
 
 def index(request):
-    articulos = Articulo.objects.all()
-    context = {'articulos': articulos}
+    context = {'articulos': 'inicio'}
     return render(request, 'landing-page.html', context)
 
 # Pagina de test
@@ -69,4 +70,23 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return render(request, 'stater-page.html')
+
+def isNum(data):
+    try:
+        int(data)
+        return True
+    except ValueError:
+        return False
+
+def search_articulos(request):
+    search_term = request.GET.get('search')
+    results = []
+    if search_term == "":
+        results = []
+    elif isNum(search_term):
+        results = Articulo.objects.filter(id=search_term) | Articulo.objects.filter(nombre__icontains=search_term)
+    else:
+        results = Articulo.objects.filter(nombre__icontains=search_term)
+    context = {'articulos': results}
+    return render(request, 'resultados_articulos.html', context)
 
