@@ -21,10 +21,13 @@
         .dot {
             height: 15px;
             width: 15px;
-            background-color: #bbb;
             border-radius: 50%;
             display: inline-block;
         }
+        .dot.green { background-color: #00e640; }
+        .dot.yellow { background-color: #fabe58; }
+        .dot.red { background-color: #f03434; }
+        .dot.gray { background-color: #67809F; }
     </style>
 
     {% block specificjs %}
@@ -52,7 +55,7 @@
                 </li>
                 <li class="nav-item">
                     <div id="navbar-user-info">
-                        <span class="dot" style="background-color: #00e640;"></span>
+                        <span class="dot green"></span>
                         <span style="font-size: 20px;">Jocelyn Simmonds</span><br>
                         <span style="font-size: 15px;">12.345.678-9</span><br>
                         <span style="font-size: 12px;">jsimmonds@dcc.uchile.cl</span>

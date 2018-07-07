@@ -18,34 +18,29 @@
         .search-div {
             position: relative;
         }
-
         .search-div .fa {
             position: absolute;
             padding: 10px;
             pointer-events: none;
             left: 0;
         }
-
         .search-div input {
             padding-left:  30px;
         }
-
         hr {
             height: 0;
             background-color: #555;
             width: 100%;
             padding: 0px;
+            margin: 0px;
         }
-
         .card {
-            width: 10rem;
+            width: 13rem;
         }
-
         .card-img-top {
-            width: 170px;
-            height: 100px;
+            width: 206px;
+            height: 116px;
         }
-
         .card-body {
             padding: 0px;
         }
@@ -93,142 +88,54 @@
                                 </div>
                             </div>
                             <div class="row mt-3 mb-5">
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
+                                {% for articulo in articulos %}
+                                    <div class="col-">
+                                        <div class="card mb-3 mx-1">
+                                            <img class="card-img-top"
+                                                 src="{{ articulo.link_foto }}"
+                                                 alt="Card image cap">
+                                            <hr>
+                                            <div class="card-body px-0">
+                                            <div class="row">
+                                            <div class="col-1 px-0"></div>
+                                            <div class="col-1 px-0">
+                                                {% if articulo.estado == 1 %}
+                                                    <span class="dot green"></span>
+                                                {% elif articulo.estado == 2 %}
+                                                    <span class="dot red"></span>
+                                                {% elif articulo.estado == 3 %}
+                                                    <span class="dot yellow"></span>
+                                                {% elif articulo.estado == 4 %}
+                                                    <span class="dot gray"></span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-10 px-1 text-left">
+                                                <h5 class="card-title">{{ articulo.nombre }}</h5>
+                                            </div>
+                                            </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
-                            <div class="row mt-5 mb-0 py-0">
+                            <div class="row mt-5">
                                 <h3>Top Pedidos</h3>
                                 <hr>
                             </div>
-                            <div class="row mt-0 py-0">
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
+                            <div class="row mt-3">
+                                {% for i in "x"|rjust:"5" %}
+                                    <div class="col-">
+                                        <div class="card mb-3 mx-1">
+                                            <img class="card-img-top"
+                                                 src="//www.cei.cl/wp-content/uploads/2015/03/logo.png"
+                                                 alt="Card image cap">
+                                            <hr>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card title</h5>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="card mb-3">
-                                        <img class="card-img-top"
-                                             src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" alt="Card image cap">
-                                        <hr>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
-
+from app.models import Articulo
 
 # Muestra el indice
-@login_required(redirect_field_name='')
+
 def index(request):
-    return render(request, 'landing-page.html')
+    articulos = Articulo.objects.all()
+    context = {'articulos': articulos}
+    return render(request, 'landing-page.html', context)
 
 # Pagina de test
 def test_page(request):
