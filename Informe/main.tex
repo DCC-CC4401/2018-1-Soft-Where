@@ -1,0 +1,123 @@
+% Template:     Informe/Reporte LaTeX
+% Documento:    Archivo principal
+% Versión:      4.7.3 (05/02/2018)
+% Codificación: UTF-8
+%
+% Autor: Pablo Pizarro R.
+%        Facultad de Ciencias Físicas y Matemáticas
+%        Universidad de Chile
+%        pablo.pizarro@ing.uchile.cl, ppizarror.com
+%
+% Manual template: [http://latex.ppizarror.com/Template-Informe/]
+% Licencia MIT:    [https://opensource.org/licenses/MIT/]
+
+% CREACIÓN DEL DOCUMENTO
+\documentclass[letterpaper,11pt]{article} % Articulo tamaño carta, 11pt
+\usepackage[utf8]{inputenc} % Codificación UTF-8
+
+% INFORMACIÓN DEL DOCUMENTO
+\def\titulodelinforme {Tarea 3}
+\def\temaatratar {Prototipo de Implementación}
+
+\def\autordeldocumento {Grupo 4: Soft, where?}
+\def\nombredelcurso {Ingeniería de Software I}
+\def\codigodelcurso {CC4401}
+
+\def\nombreuniversidad {Universidad de Chile}
+\def\nombrefacultad {Facultad de Ciencias Físicas y Matemáticas}
+\def\departamentouniversidad {Departamento de Ciencias de la Computación}
+\def\imagendepartamento {departamentos/dcc}
+\def\imagendepartamentoescala {0.2}
+\def\localizacionuniversidad {Santiago, Chile}
+
+% INTEGRANTES, PROFESORES Y FECHAS
+\def\tablaintegrantes {
+\begin{tabular}{ll}
+	Integrantes:
+		& \begin{tabular}[t]{@{}l@{}}
+			Pedro Belmonte \\
+			Ricardo Cordova \\
+			Israel Peña \\
+			Joaquín Pérez
+		\end{tabular} \\
+	Profesora:
+		& \begin{tabular}[t]{@{}l@{}}
+			Jocelyn Simmonds
+		\end{tabular} \\
+	Auxiliar:
+		& \begin{tabular}[t]{@{}l@{}}
+			Constanza Escobar
+		\end{tabular} \\
+	Ayudantes:
+		& \begin{tabular}[t]{@{}l@{}}
+			Sergio Leiva \\
+			Pablo Miranda
+		\end{tabular} \\
+	\multicolumn{2}{l}{\localizacionuniversidad}
+\end{tabular}
+}
+
+% CONFIGURACIONES
+\input{lib/config}
+
+% IMPORTACIÓN DE LIBRERÍAS
+\input{lib/imports}
+
+% IMPORTACIÓN DE FUNCIONES
+\input{lib/function/core}
+\input{lib/function/elements}
+\input{lib/function/equation}
+\input{lib/function/image}
+\input{lib/function/title}
+
+% IMPORTACIÓN DE ENTORNOS
+\input{lib/environments}
+
+% IMPORTACIÓN DE ESTILOS
+\input{lib/styles}
+
+% CONFIGURACIÓN INICIAL DEL DOCUMENTO
+\input{lib/initconf}
+
+\usepackage{hyperref} %%<-
+% INICIO DE LAS PÁGINAS
+\begin{document}
+
+% PORTADA
+\input{lib/portrait}
+
+% CONFIGURACIÓN DE PÁGINA Y ENCABEZADOS
+\input{lib/pageconf}
+
+% RESUMEN O ABSTRACT
+
+% TABLA DE CONTENIDOS - ÍNDICE1
+\input{lib/index} % Índice, se puede borrar
+
+% CONFIGURACIONES FINALES
+\input{lib/finalconf}
+
+% ======================= INICIO DEL DOCUMENTO =======================
+
+\section{Introducción}
+\include{"1.Introduccion.tex"}
+
+\newpage
+\section{Metodologías de Equipo}
+\include{"2.Metodologías de Equipo.tex"}
+
+\newpage
+\section{Modelo de Datos}
+\include{"3.Modelo de Datos.tex"}
+
+\newpage
+\section{Cumplimiento Requisitos}
+\include{"4.Cumplimiento Requisitos.tex"}
+
+\newpage
+\section{Conclusiones}
+\include{"5.Conclusiones.tex"}
+
+
+% FIN DEL DOCUMENTO
+\end{document}
