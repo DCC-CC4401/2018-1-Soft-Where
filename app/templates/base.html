@@ -8,7 +8,7 @@
     {% load bootstrap4 %}
     {% bootstrap_css %}
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 
@@ -21,10 +21,13 @@
         .dot {
             height: 15px;
             width: 15px;
-            background-color: #bbb;
             border-radius: 50%;
             display: inline-block;
         }
+        .dot.green { background-color: #00e640; }
+        .dot.yellow { background-color: #fabe58; }
+        .dot.red { background-color: #f03434; }
+        .dot.gray { background-color: #67809F; }
     </style>
 
     {% block specificjs %}
@@ -37,7 +40,7 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom border-secondary">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom border-secondary fixed-top">
         <a class="navbar-brand" href="#">
             <img src="//www.cei.cl/wp-content/uploads/2015/03/logo.png" width="100" height="90">
         </a>
@@ -52,7 +55,7 @@
                 </li>
                 <li class="nav-item">
                     <div id="navbar-user-info">
-                        <span class="dot" style="background-color: #00e640;"></span>
+                        <span class="dot green"></span>
                         <span style="font-size: 20px;">Jocelyn Simmonds</span><br>
                         <span style="font-size: 15px;">12.345.678-9</span><br>
                         <span style="font-size: 12px;">jsimmonds@dcc.uchile.cl</span>
