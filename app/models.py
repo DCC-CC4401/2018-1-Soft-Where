@@ -7,7 +7,8 @@ from django.dispatch import receiver
 class Usuario(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rut = models.CharField(max_length=13, help_text="Rut con formato 12.345.678-9 aceptado")
-    foto_link = models.ImageField(blank=True, upload_to='pic_folder/', default='pic_folder/no-img.jpg', help_text="Foto perfíl del usuario")
+    foto_link = models.ImageField(blank=True, upload_to='pic_folder/', default='pic_folder/no-img.jpg',
+                                  help_text="Foto perfíl del usuario")
 
     @receiver(post_save, sender=User)
     def create_or_update_user_profile(sender, instance, created, **kwargs):
@@ -34,7 +35,8 @@ class Articulo(models.Model):
     #Fields
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, help_text="Nombre del artículo")
-    link_foto = models.CharField(max_length=100, help_text="Link a la foto del artículo")
+    foto_link = models.ImageField(blank=True, upload_to='art_folder/', default='art_folder/no-img.jpg',
+                                  help_text="Foto del artículo")
     text_desct = models.CharField(max_length=100, help_text="Texto descriptivo del artículo")
     estado = models.PositiveSmallIntegerField(ESTADOS, help_text="Estado posible para un articulo o espacio")
 
@@ -61,7 +63,8 @@ class Espacio(models.Model):
     )
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, help_text="Nombre del espacio")
-    link_foto = models.CharField(max_length=100, help_text="Link a la foto del espacio")
+    foto_link = models.ImageField(blank=True, upload_to='esp_folder/', default='esp_folder/no-img.jpg',
+                                  help_text="Foto del espacio")
     text_desct = models.CharField(max_length=100, help_text="Texto descriptivo del espacio")
     estado = models.PositiveSmallIntegerField(ESTADOS, help_text="Estado posible para un articulo o espacio")
 
@@ -73,7 +76,6 @@ class Espacio(models.Model):
 
 
 class PedidoArticulo(models.Model):
-
     PENDIENTE = 1
     RECHAZADA = 2
     CONCRETADA = 3
