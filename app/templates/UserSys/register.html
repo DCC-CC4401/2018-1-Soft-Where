@@ -13,23 +13,11 @@
 <div class="container">
       <h2>Low-Medium Quality Register Page</h2>
       <p>Para registrarte debes ingresar los siguientes datos:</p>
-      <form action="{% url "register" %}" method="post">
+      <form method="post">
           {% csrf_token %}
         <div class="form-group">
-          <label for="usr">Correo:</label>
-          <input type="text" class="form-control" id="usr" name="username">
-        </div>
-        <div class="form-group">
-          <label for="pwd">Nombre:</label>
-          <input type="text" class="form-control" id="ls" name="last_name">
-        </div>
-        <div class="form-group">
-          <label for="usr">Rut:</label>
-          <input type="text" class="form-control" id="fn" name="first_name">
-        </div>
-          <div class="form-group">
-          <label for="usr">Contraseña:</label>
-          <input type="password" class="form-control" id="pass" name="password">
+          {{ user_form.as_p }}
+          {{ usuario_form.as_p }}
         </div>
         <button type="submit" class="btn btn-primary">Registrarse</button>
       </form>
