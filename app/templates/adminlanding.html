@@ -1,0 +1,407 @@
+{% extends "base.html" %}
+
+{% block specificjs %}
+    <script>
+        function toggleArticulos() {
+            $('#articulos-tab').attr('class', 'btn btn-success');
+            $('#pedidos-tab').attr('class', 'btn btn-light border');
+            $('#usuarios-tab').attr('class', 'btn btn-light border');
+        }
+        function togglePedidos() {
+            $('#pedidos-tab').attr('class', 'btn btn-success');
+            $('#articulos-tab').attr('class', 'btn btn-light border');
+            $('#usuarios-tab').attr('class', 'btn btn-light border');
+        }
+        function toggleUsuarios() {
+            $('#usuarios-tab').attr('class', 'btn btn-success');
+            $('#articulos-tab').attr('class', 'btn btn-light border');
+            $('#pedidos-tab').attr('class', 'btn btn-light border');
+        }
+    </script>
+{% endblock %}
+
+{% block specificcss %}
+    <style>
+        .search-div {
+            position: relative;
+        }
+
+        .search-div .fa {
+            position: absolute;
+            padding: 10px;
+            pointer-events: none;
+            left: 0;
+        }
+
+        .search-div input {
+            padding-left:  30px;
+        }
+
+        hr {
+            height: 0;
+            background-color: #555;
+            width: 100%;
+            padding: 0px;
+        }
+
+        .card {
+            width: 10rem;
+        }
+
+        .card-img-top {
+            width: 170px;
+            height: 100px;
+        }
+
+        .card-body {
+            padding: 0px;
+        }
+
+        /*
+ * Base structure
+    dashboard
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 150px;
+}
+
+/*
+ * Typography
+ */
+
+h1 {
+  margin-bottom: 20px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #eee;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  position: fixed;
+  top: 151px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  border-right: 1px solid #eee;
+}
+
+/* Sidebar navigation */
+.sidebar {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar .nav {
+  margin-bottom: 20px;
+}
+
+.sidebar .nav-item {
+  width: 100%;
+}
+
+.sidebar .nav-item + .nav-item {
+  margin-left: 0;
+}
+
+.sidebar .nav-link {
+  border-radius: 0;
+}
+
+/*
+ * Dashboard
+ */
+
+ /* Placeholders */
+.placeholders {
+  padding-bottom: 3rem;
+}
+
+.placeholder img {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+    </style>
+{% endblock %}
+
+{% block cuerpo %}
+
+    <div class="container-fluid">
+        <div class="row justify-content-center mt-4">
+            <div class="container" style="text-align: center">
+                <div class="col-2 sidebar">
+                <ul class="nav " id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a role="button" id="usuarios-tab" data-toggle="tab" href="#usuarios"
+                           aria-controls="usuarios" aria-selected="false" class="btn btn-light border"
+                           onclick="toggleUsuarios()">
+                            Usuarios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a role="button" id="articulos-tab" data-toggle="tab" href="#articulos"
+                           aria-controls="articulos" aria-selected="true" class="btn btn-success"
+                           onClick="toggleArticulos()">
+                            Artículos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a role="button" id="pedidos-tab" data-toggle="tab" href="#pedidos"
+                           aria-controls="pedidos" aria-selected="false" class="btn btn-light border"
+                           onClick="togglePedidos()">
+                            Pedidos
+                        </a>
+                    </li>
+                </ul>
+                </div>
+                <div class="tab-content col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" id="contenido-tab">
+
+                    <h1 class="h2">Administrador</h1>
+                    <hr>
+
+                    <div id="usuarios" class="tab-pane fade">
+                        <div class="container-fluid">
+                            <div class="row mt-4">
+                                <div class="col-12 mx-auto px-0">
+                                    <form class="form-inline">
+                                        <div class="col-10 px-0 search-div">
+                                            <i class="fa fa-search"></i>
+                                            <input class="form-control" type="search" placeholder="Buscar artículos"
+                                                   aria-label="Search" style="width: 100%">
+                                        </div>
+                                        <div class="col-2 px-0">
+                                            <button class="btn btn-outline-success" type="submit" style="width: 100%;">
+                                                Buscar
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-sm">
+                                      <thead>
+                                        <tr>
+                                          <th>ID</th>
+                                          <th>Nombre</th>
+                                          <th>Apellido</th>
+                                          <th>Rut</th>
+                                          <th>Correo</th>
+                                            <th>Estado</th>
+                                            <th>agregar</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>1,001</td>
+                                          <td>Lorem</td>
+                                          <td>ipsum</td>
+                                          <td>dolor</td>
+                                          <td>sit</td>
+                                            <td>sdlkfh</td>
+                                            <td>ldksfh</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,002</td>
+                                          <td>amet</td>
+                                          <td>consectetur</td>
+                                          <td>adipiscing</td>
+                                          <td>elit</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,003</td>
+                                          <td>Integer</td>
+                                          <td>nec</td>
+                                          <td>odio</td>
+                                          <td>Praesent</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,003</td>
+                                          <td>libero</td>
+                                          <td>Sed</td>
+                                          <td>cursus</td>
+                                          <td>ante</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,004</td>
+                                          <td>dapibus</td>
+                                          <td>diam</td>
+                                          <td>Sed</td>
+                                          <td>nisi</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,005</td>
+                                          <td>Nulla</td>
+                                          <td>quis</td>
+                                          <td>sem</td>
+                                          <td>at</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,006</td>
+                                          <td>nibh</td>
+                                          <td>elementum</td>
+                                          <td>imperdiet</td>
+                                          <td>Duis</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,007</td>
+                                          <td>sagittis</td>
+                                          <td>ipsum</td>
+                                          <td>Praesent</td>
+                                          <td>mauris</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,008</td>
+                                          <td>Fusce</td>
+                                          <td>nec</td>
+                                          <td>tellus</td>
+                                          <td>sed</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,009</td>
+                                          <td>augue</td>
+                                          <td>semper</td>
+                                          <td>porta</td>
+                                          <td>Mauris</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,010</td>
+                                          <td>massa</td>
+                                          <td>Vestibulum</td>
+                                          <td>lacinia</td>
+                                          <td>arcu</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,011</td>
+                                          <td>eget</td>
+                                          <td>nulla</td>
+                                          <td>Class</td>
+                                          <td>aptent</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,012</td>
+                                          <td>taciti</td>
+                                          <td>sociosqu</td>
+                                          <td>ad</td>
+                                          <td>litora</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,013</td>
+                                          <td>torquent</td>
+                                          <td>per</td>
+                                          <td>conubia</td>
+                                          <td>nostra</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,014</td>
+                                          <td>per</td>
+                                          <td>inceptos</td>
+                                          <td>himenaeos</td>
+                                          <td>Curabitur</td>
+                                        </tr>
+                                        <tr>
+                                          <td>1,015</td>
+                                          <td>sodales</td>
+                                          <td>ligula</td>
+                                          <td>in</td>
+                                          <td>libero</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show active" id="articulos" role="tabpanel"
+                         aria-labelledby="articulos-tab">
+                        <div class="container-fluid">
+                            <div class="row mt-4">
+                                <div class="col-12 mx-auto px-0">
+                                    <form class="form-inline">
+                                        <div class="col-10 px-0 search-div">
+                                            <i class="fa fa-search"></i>
+                                            <input class="form-control" type="search" placeholder="Buscar artículos"
+                                                   aria-label="Search" style="width: 100%">
+                                        </div>
+                                        <div class="col-2 px-0">
+                                            <button class="btn btn-outline-success" type="submit" style="width: 100%;">
+                                                Buscar
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h2>Artículos</h2>
+                                    <hr>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-sm">
+                                          <thead>
+                                            <tr>
+                                              <th>ID</th>
+                                              <th>Producto</th>
+                                                <th>Estado</th>
+                                                <th>agregar</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <td>1,001</td>
+                                              <td>Lorem</td>
+                                              <td>ipsum</td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h2>Espacios</h2>
+                                    <hr>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-sm">
+                                          <thead>
+                                            <tr>
+                                              <th>ID</th>
+                                              <th>Producto</th>
+                                                <th>Estado</th>
+                                                <th>agregar</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <td>1,001</td>
+                                              <td>Lorem</td>
+                                              <td>ipsum</td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pedidos" role="tabpanel" aria-labelledby="pedidos-tab">
+                        .2.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock cuerpo %}
