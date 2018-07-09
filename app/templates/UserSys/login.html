@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<!DOCTYPE html>
-<html lang="en">
-
-    {% load bootstrap4 %}
-    {% bootstrap_css %}
-
-<head>
-    <meta charset="UTF-8">
-    <title>Low Quality Login Page</title>
-</head>
-
-<body>
+{% extends 'base.html' %}
+{% block cuerpo %}
     <div class="container">
       <h2>Low-Medium Quality Login Page</h2>
       <p>Para meterte al sitio debes ingresar los siguientes daticos:</p>
@@ -34,5 +21,4 @@
             <button type="submit" class="btn btn-primary">Sin Cuenta?</button>
         </form>
     </div>
-
-</body>
+{% endblock %}
