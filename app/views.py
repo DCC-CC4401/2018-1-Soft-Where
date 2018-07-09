@@ -3,10 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
-<<<<<<< HEAD
 from .models import Articulo, PedidoEspacio, Usuario, Espacio, PedidoArticulo
-=======
->>>>>>> d28cb642e5ec365e18e9aee3c0a93727995fe5f7
 from .forms import UserForm, UsuarioForm
 import json
 
@@ -123,11 +120,12 @@ def search_articulos(request):
 
 
 def admin_landing(request):
-    context = {'usuarios' : Usuario.objects.all(),
+    context = {**{'usuarios' : Usuario.objects.all(),
                'articulos' : Articulo.objects.all(),
                'espacios' : Espacio.objects.all(),
                'pedidoespacios' : PedidoEspacio.objects.all(),
-               'pedidoarticulos' : PedidoArticulo.objects.all()}
+               'pedidoarticulos' : PedidoArticulo.objects.all(), },
+               **user_context(request)}
     return render(request, 'adminlanding.html', context)
 
 def cambiar_estado_pendientes(request):
@@ -141,11 +139,12 @@ def cambiar_estado_pendientes(request):
                 pedidoespacio = PedidoEspacio.objects.get(id_espacio=id)
                 pedidoespacio.estado = 2
                 pedidoespacio.save()
-        context = {'usuarios' : Usuario.objects.all(),
+        context = {**{'usuarios' : Usuario.objects.all(),
                    'articulos' : Articulo.objects.all(),
                    'espacios' : Espacio.objects.all(),
                    'pedidoespacios' : PedidoEspacio.objects.all().order_by('fecha_pedido'),
-                   'pedidoarticulos' : PedidoArticulo.objects.all().order_by('fecha_pedido')}
+                   'pedidoarticulos' : PedidoArticulo.objects.all().order_by('fecha_pedido')},
+                **user_context(request)}
         return render(request, 'adminlanding.html', context)
 
 def filtrar_prestamos(request):
@@ -160,9 +159,10 @@ def filtrar_prestamos(request):
         elif 'perdidos' in request.POST:
             pedidoarticulosfiltrados =PedidoArticulo.objects.filter(estado=PedidoArticulo.PERDIDO)
 
-        context = {'usuarios' : Usuario.objects.all(),
+        context = {**{'usuarios' : Usuario.objects.all(),
                    'articulos' : Articulo.objects.all(),
                    'espacios' : Espacio.objects.all(),
                    'pedidoespacios' : PedidoEspacio.objects.all().order_by('fecha_pedido'),
-                   'pedidoarticulos' : pedidoarticulosfiltrados.order_by('fecha_pedido')}
+                   'pedidoarticulos' : pedidoarticulosfiltrados.order_by('fecha_pedido')},
+            **user_context(request)}
         return render(request, 'adminlanding.html', context)
