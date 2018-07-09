@@ -25,7 +25,8 @@ def test_page(request):
 # Retorna los datos basicos del usuario logeado
 def user_context(request):
     current_user = Usuario.objects.get(user=request.user)
-    context = {'name': str(current_user),
+    context = {'id':current_user.get_id,
+               'name': str(current_user),
                'rut' : current_user.rut,
                'mail' : current_user.user.email}
     return context
@@ -198,3 +199,9 @@ def ficha_articulo(request):
         context = {'articulo' : articulo,
                    'historial_reservas': historial_reservas_articulo}
         return render(request, 'ficha-articulo.html', context)
+
+def pedir_articulo(request):
+    if request.method == 'GET':
+        articulo_id = request.GET['articulo_id']
+        user_id = user_context(request).id
+        PedidoArticulo.objects.create(id_articulo=articulo_id, id_usuario=user_id, estado=1)
