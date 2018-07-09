@@ -32,6 +32,7 @@ def user_context(request):
     return context
 
 
+# TODO: :)
 def user_profile(request):
     context = user_context(request)
     return render(request, 'user_profile.html', context)
@@ -52,9 +53,9 @@ def login_page(request):
             if user is not None:
                 login(request, user)
                 return render(request, 'landing-page.html', user_context(request))
-            else:
-                return render(request, 'login.html')
+        # TODO: Su mensaje de error?
         return render(request, 'UserSys/login.html')
+
 
 # Muestra la pagina de registro si el usuario no esta logeado
 @transaction.atomic
@@ -95,23 +96,6 @@ def register_page(request):
                       )
 
 
-# Logea al usuario dentro de la página y lo lleva al landing page que corresponda.
-def login_user(request):
-    user = ''
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        user = authenticate(request, username=email, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-        # TODO: Llevar al landing page admin/user segun el tipo de usuario.
-        return render(request, 'landing-page.html', user_context(request))
-    else:
-        # TODO: Crear la pagina de error (?)
-        return render(request, 'fail-page.html')
-
-
 # Desloguea al usuario y lo lleva al inicio.
 @login_required
 def logout_user(request):
@@ -150,6 +134,7 @@ def admin_landing(request):
                **user_context(request)}
     return render(request, 'adminlanding.html', context)
 
+
 def cambiar_estado_pendientes(request):
     if(request.method == 'POST'):
         for id in request.POST.getlist('id'):
@@ -168,6 +153,7 @@ def cambiar_estado_pendientes(request):
                    'pedidoarticulos' : PedidoArticulo.objects.all().order_by('fecha_pedido')},
                 **user_context(request)}
         return render(request, 'adminlanding.html', context)
+
 
 def filtrar_prestamos(request):
     if(request.method == 'POST'):
