@@ -1,8 +1,27 @@
 {% extends "base.html" %}
 
+{% block specificcss %}
+    <style>
+        .btn-xlarge {
+            padding: 18px 28px;
+            font-size: 3vw; //change this to your desired size
+            line-height: normal;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border-radius: 8px;
+        }
+    </style>
+{% endblock %}
+
 {% block cuerpo %}
     <div class="container">
-    <a href="#" class="btn btn-light btn-lg btn-block" type="button">Reserva un Espacio</a>
-    <a href="#" class="btn btn-light btn-lg btn-block" type="button">Pide un Artículo</a>
+        <div class="row justify-content-center">
+            <a href="#" class="btn btn-xlarge btn-outline-dark px-3 mr-1" type="button">Reserva un Espacio</a>
+            <a href="#" class="btn btn-xlarge btn-outline-dark px-5 ml-1" type="button">Pide un Artículo</a>
+        </div>
     </div>
+    <div class="container">
+        
+    </div>
+
 {% endblock %}
