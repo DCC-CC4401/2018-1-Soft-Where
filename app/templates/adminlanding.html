@@ -310,26 +310,20 @@ h1 {
                                               <thead>
                                                 <tr>
                                                     <th></th>
-                                                  <th>RUT Usuario</th>
-                                                  <th>Nombre Espacio</th>
+                                                    <th>RUT Usuario</th>
+                                                    <th>Nombre Espacio</th>
                                                     <th>Fecha de Solicitud</th>
                                                 </tr>
                                               </thead>
                                               <tbody>
-                                                <tr>
-                                                    <td><input type="checkbox" id="id" name="id" value="id"></td>
-                                                  <td>1,001</td>
-                                                  <td>Lorem</td>
-                                                  <td>ipsum</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
                                               {% for pedidoespacio in pedidoespacios %}
-                                                  {% if pedidoespacio.estado == 1 %}
-                                                      <td><input type="checkbox" id="id" name="id" value="{{ pedidoespacio.id_espacio.id }}"></td>
-                                                      <td>{{ pedidoespacio.id_usuario.user.first_name }}</td>
-                                                      <td>{{ pedidoespacio.id_espacio.nombre }}</td>
-                                                      <td>{{ pedidoespacio.fecha_pedido }}</td>
+                                                  {% if pedidoespacio.estado == pedidoespacio.PENDIENTE %}
+                                                      <tr>
+                                                          <td><input type="checkbox" id="id" name="id" value="{{ pedidoespacio.id_espacio.id }}"></td>
+                                                          <td>{{ pedidoespacio.id_usuario.user.first_name }}</td>
+                                                          <td>{{ pedidoespacio.id_espacio.nombre }}</td>
+                                                          <td>{{ pedidoespacio.fecha_pedido }}</td>
+                                                      </tr>
                                                   {% endif %}
                                               {% endfor %}
 
@@ -339,29 +333,48 @@ h1 {
                                     </form>
                                 </div>
                                 <div class="col-6">
-                                    <h2>Préstamos</h2>
-                                    <hr>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-sm">
-                                          <thead>
-                                            <tr>
-                                                <th></th>
-                                              <th>ID</th>
-                                              <th>Artículo</th>
-                                                <th>Usuario</th>
-                                                <th>Fecha de Préstamo</th>
-                                                <th>Estado</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            <tr>
-                                              <td>1,001</td>
-                                              <td>Lorem</td>
-                                              <td>ipsum</td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                    </div>
+                                    <form action="{% url 'filtrar_prestamos' %}" method="post">
+                                    {% csrf_token %}
+                                        <h2>Préstamos</h2>
+
+                                        <input type="submit" value="todo", name="todo">
+                                        <input type="submit" value="vigentes", name="vigentes">
+                                        <input type="submit" value="caducados", name="caducados">
+                                        <input type="submit" value="perdidos", name="perdidos">
+                                    
+                                        <hr>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-sm">
+                                              <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>RUT Usuario</th>
+                                                    <th>Nombre Espacio</th>
+                                                    <th>Fecha de Solicitud</th>
+                                                    <th>Estado</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                              {% for pedidoarticulo in pedidoarticulos %}
+                                                  <tr>
+                                                    <td></td>
+                                                    <td>{{ pedidoarticulo.id_usuario.user.first_name }}</td>
+                                                    <td>{{ pedidoarticulo.id_articulo.nombre}}</td>
+                                                    <td>{{ pedidoarticulo.fecha_pedido }}</td>
+                                                      {% if pedidoarticulo.estado == pedidoarticulo.VIGENTE %}
+                                                    <td>{{ pedidoarticulo.ESTADOS.0.1}}</td>
+                                                      {% elif pedidoarticulo.estado == pedidoarticulo.CADUCADO %}
+                                                    <td>{{ pedidoarticulo.ESTADOS.1.1}}</td>
+                                                      {% elif pedidoarticulo.estado == pedidoarticulo.PERDIDO %}
+                                                    <td>{{ pedidoarticulo.ESTADOS.2.1}}</td>
+                                                      {% endif %}
+
+                                                  </tr>
+                                              {% endfor %}
+                                              </tbody>
+                                            </table>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                     </div>

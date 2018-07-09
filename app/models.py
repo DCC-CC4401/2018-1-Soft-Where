@@ -76,13 +76,13 @@ class Espacio(models.Model):
 
 
 class PedidoArticulo(models.Model):
-    PENDIENTE = 1
-    RECHAZADA = 2
-    CONCRETADA = 3
+    VIGENTE = 1
+    CADUCADO = 2
+    PERDIDO = 3
     ESTADOS = (
-        (PENDIENTE, "Pendiente"),
-        (RECHAZADA, "Rechazada"),
-        (CONCRETADA, "Concretada")
+        (VIGENTE, "Vigente"),
+        (CADUCADO, "Caducado"),
+        (PERDIDO, "Perdido")
     )
     id_usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     id_articulo = models.ForeignKey('Articulo', on_delete=models.CASCADE)
@@ -94,7 +94,7 @@ class PedidoArticulo(models.Model):
         ordering = ["fecha_pedido", "id_usuario"]
 
     def __str__(self):
-        return self.id_articulo + self.id_usuario
+        return self.id_articulo + " " + self.id_usuario
 
 
 class PedidoEspacio(models.Model):

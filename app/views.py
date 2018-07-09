@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
-from .models import Articulo, PedidoEspacio, Usuario, Espacio
+from .models import Articulo, PedidoEspacio, Usuario, Espacio, PedidoArticulo
 from .forms import UserForm, UsuarioForm
 import json
 
@@ -107,7 +107,8 @@ def admin_landing(request):
     context = {'usuarios' : Usuario.objects.all(),
                'articulos' : Articulo.objects.all(),
                'espacios' : Espacio.objects.all(),
-               'pedidoespacios' : PedidoEspacio.objects.all()}
+               'pedidoespacios' : PedidoEspacio.objects.all(),
+               'pedidoarticulos' : PedidoArticulo.objects.all()}
     return render(request, 'adminlanding.html', context)
 
 def cambiar_estado_pendientes(request):
@@ -117,12 +118,32 @@ def cambiar_estado_pendientes(request):
                 pedidoespacio = PedidoEspacio.objects.get(id_espacio=id)
                 pedidoespacio.estado = 3
                 pedidoespacio.save()
-            if 'rechazado' in request.POST:
+            elif 'rechazado' in request.POST:
                 pedidoespacio = PedidoEspacio.objects.get(id_espacio=id)
                 pedidoespacio.estado = 2
                 pedidoespacio.save()
-    context = {'usuarios' : Usuario.objects.all(),
-               'articulos' : Articulo.objects.all(),
-               'espacios' : Espacio.objects.all(),
-               'pedidoespacios' : PedidoEspacio.objects.all()}
-    return render(request, 'adminlanding.html', context)
+        context = {'usuarios' : Usuario.objects.all(),
+                   'articulos' : Articulo.objects.all(),
+                   'espacios' : Espacio.objects.all(),
+                   'pedidoespacios' : PedidoEspacio.objects.all().order_by('fecha_pedido'),
+                   'pedidoarticulos' : PedidoArticulo.objects.all().order_by('fecha_pedido')}
+        return render(request, 'adminlanding.html', context)
+
+def filtrar_prestamos(request):
+    if(request.method == 'POST'):
+        pedidoarticulosfiltrados = PedidoArticulo.objects.all()
+        if 'todo' in request.POST:
+            pedidoarticulosfiltrados = PedidoArticulo.objects.all()
+        elif 'vigentes' in request.POST:
+            pedidoarticulosfiltrados =PedidoArticulo.objects.filter(estado=PedidoArticulo.VIGENTE)
+        elif 'caducados' in request.POST:
+            pedidoarticulosfiltrados =PedidoArticulo.objects.filter(estado=PedidoArticulo.CADUCADO)
+        elif 'perdidos' in request.POST:
+            pedidoarticulosfiltrados =PedidoArticulo.objects.filter(estado=PedidoArticulo.PERDIDO)
+
+        context = {'usuarios' : Usuario.objects.all(),
+                   'articulos' : Articulo.objects.all(),
+                   'espacios' : Espacio.objects.all(),
+                   'pedidoespacios' : PedidoEspacio.objects.all().order_by('fecha_pedido'),
+                   'pedidoarticulos' : pedidoarticulosfiltrados.order_by('fecha_pedido')}
+        return render(request, 'adminlanding.html', context)
