@@ -166,3 +166,19 @@ def filtrar_prestamos(request):
                    'pedidoarticulos' : pedidoarticulosfiltrados.order_by('fecha_pedido')},
             **user_context(request)}
         return render(request, 'adminlanding.html', context)
+
+
+# Genera la pagina de la ficha de un articulo
+def ficha_articulo(request):
+    context = user_context(request)
+    if (request.method == 'POST'):
+        if 'id_articulo' in request.POST:
+            articulo = Articulo.objects.get(id=request.POST.get('id_articulo'))
+            historial = PedidoArticulo.objects.get(id_articulo=request.POST.get('id_articulo'))
+            context = {**context, **{
+            'nombre_articulo' : articulo.nombre,
+            'estado' : articulo.estado,
+            'descripcion' : articulo.text_desct,
+            'foto_link' : articulo.foto_link},
+            'historial' : historial}
+    return render(request, 'ficha_articulo.html', context)

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block cuerpo %}
+
+    <!-- Low quality cosa -->
+    <div class="container">
+        <h2>{{ nombre_articulo }}
+            {% if estado == 1 %}
+                <span class="badge badge-success">Disponible</span>
+            {% elif estado == 2 %}
+                <span class="badge badge-danger">En Préstamo</span>
+            {% elif estado == 3 %}
+                <span class="badge badge-warning">En Reparación</span>
+            {% elif estado == 4 %}
+                <span class="badge badge-secondary">Secondary</span>
+            {% endif %}</h2>
+
+        <!-- Imagen usando foto_link -->
+        <img src={{ foto_link }} class="mx-auto d-block" style="width:50%">
+        {{ descripcion }}
+    </div>
+
+    <div class="container">
+        <!-- TODO: Usar el historial para hacer las otras cosas que faltan: Hacer un pedido nuevo y el historial. -->
+    </div>
+
+{% endblock %}

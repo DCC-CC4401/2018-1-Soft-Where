@@ -14,4 +14,5 @@ urlpatterns = [
     re_path(r'^searchArticulos/$', views.search_articulos, name='searchArticulos'),
     # re_path(r'^cambiar_estado_pendientes/$', views.cambiar_estado_pendientes, name='cambiar_estado_pendientes'),
     path('profile', views.user_profile, name='userProfile'),
+    path('articulo', views.ficha_articulo, name='articulo'),
 ]
