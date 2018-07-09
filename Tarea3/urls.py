@@ -24,4 +24,4 @@ urlpatterns = [
     path('', include('app.urls')),
     path('admin/', admin.site.urls),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,24 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block specificcss %}
+    <style>
+        .form-div {
+            width: 400px;
+            background-color: #ececec;
+            box-shadow: 0px 0px 5px grey;
+        }
+        body {
+            padding-top: 0px;
+            background-color: #ecf0f1;
+        }
+    </style>
+{% endblock %}
+
 {% block cuerpo %}
-    <div class="container">
-      <h2>Low-Medium Quality Login Page</h2>
-      <p>Para meterte al sitio debes ingresar los siguientes daticos:</p>
-      <form action="{% url "login" %}" method="post">
-          {% csrf_token %}
-        <div class="form-group">
-          <label for="usr">Correo:</label>
-          <input type="text" class="form-control" id="usr" name="username">
+    <div class="row p-5 align-middle justify-content-center">
+        <div class="form-div text-center p-5 border">
+            <form class="form-signin" action="{% url "login" %}" method="post">
+                {% csrf_token %}
+                <img class="mb-4" src="{% static "app/logo.png" %}" alt="" width="160" height="140">
+                <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
+                <div class="form-group">
+                    <label for="usr"class="sr-only">Correo:</label>
+                    <input type="email" class="form-control" id="usr" name="username" placeholder="Correo" required
+                           autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="pwd" class="sr-only">Contraseña</label>
+                    <input type="password" class="form-control" id="pwd" name="password" placeholder="Contraseña"
+                           required>
+                </div>
+                <div class="checkbox mb-3">
+                    <label><input type="checkbox" value="remember-me"> Recordarme</label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesión</button>
+            </form>
+            <form action="{% url "registerPage" %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link">Registrarme</button>
+            </form>
         </div>
-        <div class="form-group">
-          <label for="pwd">Contraseña:</label>
-          <input type="password" class="form-control" id="pwd" name="password">
-        </div>
-        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-      </form>
-        <br>
-        <form action="{% url "registerPage" %}" method="post">
-          {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Sin Cuenta?</button>
-        </form>
     </div>
+
+
 {% endblock %}

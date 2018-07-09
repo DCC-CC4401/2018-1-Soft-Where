@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
 from .models import Articulo, PedidoEspacio, Usuario, Espacio, PedidoArticulo
 from .forms import UserForm, UsuarioForm
-import json
 
 
 # Muestra el indice
@@ -14,7 +13,7 @@ def index(request):
     if request.user.is_authenticated:
         context = {**context, **user_context(request)} # Esto fusiona dos dict
     else:
-        pass
+        return login_page(request)
     return render(request, 'landing-page.html', context)
 
 
@@ -53,7 +52,10 @@ def login_page(request):
             if user is not None:
                 login(request, user)
                 return render(request, 'landing-page.html', user_context(request))
-        # TODO: Su mensaje de error?
+            else:
+                # TODO: Mensaje de error por password
+                return render(request, 'UserSys/login.html')
+        # TODO: No se como se llega aqui...
         return render(request, 'UserSys/login.html')
 
 
@@ -174,3 +176,12 @@ def filtrar_prestamos(request):
                    'pedidoarticulos' : pedidoarticulosfiltrados.order_by('fecha_pedido')},
             **user_context(request)}
         return render(request, 'adminlanding.html', context)
+
+def ficha_articulo(request):
+    if request.method == 'GET':
+        articulo_id = request.GET['articulo_id']
+        articulo = Articulo.objects.get(id=articulo_id)
+        historial_reservas_articulo = PedidoArticulo.objects.filter(id_articulo=1).order_by('fecha_pedido')
+        context = {'articulo' : articulo,
+                   'historial_reservas': historial_reservas_articulo}
+        return render(request, 'ficha-articulo.html', context)
