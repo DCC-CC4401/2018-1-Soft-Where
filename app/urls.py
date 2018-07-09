@@ -7,6 +7,6 @@ urlpatterns = [
     path('login', views.login_page, name='loginPage'),
     path('register', views.register_page, name='registerPage'),
     path('loginUser', views.login_user, name='login'),
+    path('profile', views.user_profile, name='userProfile'),
     re_path(r'^searchArticulos/$', views.search_articulos, name='searchArticulos'),
-    re_path('.*', views.index),
 ]
