@@ -61,9 +61,9 @@
                 <li class="nav-item">
                     <div id="navbar-user-info">
                         <span class="dot green"></span>
-                        <span style="font-size: 20px;">Jocelyn Simmonds</span><br>
-                        <span style="font-size: 15px;">12.345.678-9</span><br>
-                        <span style="font-size: 12px;">jsimmonds@dcc.uchile.cl</span>
+                        <span style="font-size: 20px;">{{ name }}</span><br>
+                        <span style="font-size: 15px;">{{ rut }}</span><br>
+                        <span style="font-size: 12px;">{{ mail }}</span>
                     </div>
                 </li>
                 <li>
@@ -75,10 +75,14 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            {% if user.is_authenticated %}
                         <a class="dropdown-item" href="#">Inicio</a>
                         <a class="dropdown-item" href="#">Perfil</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Cerrar Sesión</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a>
+                            {% else %}
+                        <a href="{% url 'login' %}">Iniciar Sesión</a>
+                            {% endif %}
                     </div>
                 </li>
             </ul>
