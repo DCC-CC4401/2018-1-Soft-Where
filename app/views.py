@@ -51,8 +51,6 @@ def login_page(request):
             if user is not None:
                 login(request, user)
                 return render(request, 'landing-page.html', user_context(request))
-            else:
-                return render(request, 'login.html')
         return render(request, 'UserSys/login.html')
 
 # Muestra la pagina de registro si el usuario no esta logeado
