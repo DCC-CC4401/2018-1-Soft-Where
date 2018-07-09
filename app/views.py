@@ -147,3 +147,12 @@ def filtrar_prestamos(request):
                    'pedidoespacios' : PedidoEspacio.objects.all().order_by('fecha_pedido'),
                    'pedidoarticulos' : pedidoarticulosfiltrados.order_by('fecha_pedido')}
         return render(request, 'adminlanding.html', context)
+
+def ficha_articulo(request):
+    if request.method == 'GET':
+        articulo_id = request.GET['articulo_id']
+        articulo = Articulo.objects.get(id=articulo_id)
+        historial_reservas_articulo = PedidoArticulo.objects.filter(id_articulo=1).order_by('fecha_pedido')
+        context = {'articulo' : articulo,
+                   'historial_reservas': historial_reservas_articulo}
+        return render(request, 'ficha-articulo.html', context)

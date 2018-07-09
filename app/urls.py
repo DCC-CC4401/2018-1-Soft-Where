@@ -13,4 +13,5 @@ urlpatterns = [
     path('filtrar_prestamos', views.filtrar_prestamos, name='filtrar_prestamos'),
     re_path(r'^searchArticulos/$', views.search_articulos, name='searchArticulos'),
     # re_path(r'^cambiar_estado_pendientes/$', views.cambiar_estado_pendientes, name='cambiar_estado_pendientes'),
+    path('ficha_articulo', views.ficha_articulo, name='ficha_articulo')
 ]
