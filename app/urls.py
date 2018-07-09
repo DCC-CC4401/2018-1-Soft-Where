@@ -9,5 +9,4 @@ urlpatterns = [
     path('loginUser', views.login_user, name='login'),
     path('cambiar_estado_pendientes', views.cambiar_estado_pendientes, name='cambiar_estado_pendientes'),
     re_path(r'^searchArticulos/$', views.search_articulos, name='searchArticulos'),
-    re_path('.*', views.index),
 ]
