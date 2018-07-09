@@ -11,7 +11,10 @@ import json
 # Muestra el indice
 def index(request):
     context = {'articulos': 'inicio'}
-    context = {**context, **user_context(request)} # Esto fusiona dos dict
+    if request.user.is_authenticated:
+        context = {**context, **user_context(request)} # Esto fusiona dos dict
+    else:
+        pass
     return render(request, 'landing-page.html', context)
 
 
@@ -34,14 +37,24 @@ def user_profile(request):
     return render(request, 'user_profile.html', context)
 
 
-# Muestra la pagina de login si el usuario no esta logeado
+@transaction.atomic
 def login_page(request):
     if request.user.is_authenticated:
         # TODO: Otra pagina o algo así
         return index(request)
     else:
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username,
+                                password=password,
+                                request=request)
+            if user is not None:
+                login(request, user)
+                return render(request, 'landing-page.html', user_context(request))
+            else:
+                return render(request, 'login.html')
         return render(request, 'UserSys/login.html')
-
 
 # Muestra la pagina de registro si el usuario no esta logeado
 @transaction.atomic
@@ -55,16 +68,23 @@ def register_page(request):
             usuario_form = UsuarioForm(request.POST)
             if user_form.is_valid() and usuario_form.is_valid():
                 email = user_form.data['email']
+                password = user_form.cleaned_data['password']
                 user = user_form.save(commit=False)
                 user.username = email
+                user.set_password(raw_password=password)
                 user.save()
                 user.refresh_from_db()
                 usuario_form = UsuarioForm(request.POST, instance=user.usuario)
                 usuario_form.full_clean()
                 usuario_form.save()
-                # TODO: ¿El usuario deberia logearse inmediatamente al registrarse?
-                login(request, user)
-                return render(request, 'landing-page.html', user_context(request))
+                username = user.username
+                user = authenticate(username=username,
+                                    password=password,
+                                    request=request)
+                if user is not None:
+                    login(request, user)
+                    return render(request, 'landing-page.html', user_context(request))
+                return render(request, 'landing-page.html')
         else:
             user_form = UserForm()
             usuario_form = UsuarioForm()

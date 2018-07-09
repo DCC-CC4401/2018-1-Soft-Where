@@ -1,27 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-
-    {% load bootstrap4 %}
-    {% bootstrap_css %}
-
-<head>
-    <meta charset="UTF-8">
-    <title>Low Quality Register Page</title>
-</head>
-
-<body>
+{% extends 'base.html' %}
+{% block cuerpo %}
 <div class="container">
       <h2>Low-Medium Quality Register Page</h2>
       <p>Para registrarte debes ingresar los siguientes datos:</p>
       <form method="post">
           {% csrf_token %}
-        <div class="form-group">
           {{ user_form.as_p }}
           {{ usuario_form.as_p }}
-        </div>
         <button type="submit" class="btn btn-primary">Registrarse</button>
       </form>
 
-    </div>
-
-</body>
+</div>
+{% endblock %}
