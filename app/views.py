@@ -98,11 +98,23 @@ def register_page(request):
                       )
 
 
-# Desloguea al usuario y lo lleva al inicio.
 @login_required
-def logout_user(request):
-    logout(request)
-    return render(request, 'UserSys/login.html')
+def update_user(request):
+    # TODO: completar el cambio de password
+    if request.method == 'POST':
+        current_user = Usuario.objects.get(user=request.user)
+        old_password = request.POST['old_password']
+        new_password = request.POST['new_password']
+        username = current_user.username
+        current_user.set_password(new_password)
+        current_user.save()
+        renewed_user = authenticate(username=username,
+                                    password=new_password,
+                                    request=request)
+        if renewed_user is not None:
+            login(request, renewed_user)
+            return render(request, 'landing-page.html', user_context(request))
+
 
 
 def isNum(data):
@@ -176,6 +188,7 @@ def filtrar_prestamos(request):
                    'pedidoarticulos' : pedidoarticulosfiltrados.order_by('fecha_pedido')},
             **user_context(request)}
         return render(request, 'adminlanding.html', context)
+
 
 def ficha_articulo(request):
     if request.method == 'GET':
