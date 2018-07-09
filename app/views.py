@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
 from .models import Articulo, PedidoEspacio, Usuario, Espacio, PedidoArticulo
 from .forms import UserForm, UsuarioForm
-import json
 
 
 # Muestra el indice
@@ -14,7 +13,7 @@ def index(request):
     if request.user.is_authenticated:
         context = {**context, **user_context(request)} # Esto fusiona dos dict
     else:
-        pass
+        return login_page(request)
     return render(request, 'landing-page.html', context)
 
 
