@@ -28,6 +28,11 @@
         .dot.yellow { background-color: #fabe58; }
         .dot.red { background-color: #f03434; }
         .dot.gray { background-color: #67809F; }
+
+        /* Move down content because we have a fixed navbar that is 50px tall */
+        body {
+          padding-top: 150px;
+        }
     </style>
 
     {% block specificjs %}
