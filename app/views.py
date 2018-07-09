@@ -3,7 +3,10 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
+<<<<<<< HEAD
 from .models import Articulo, PedidoEspacio, Usuario, Espacio, PedidoArticulo
+=======
+>>>>>>> d28cb642e5ec365e18e9aee3c0a93727995fe5f7
 from .forms import UserForm, UsuarioForm
 import json
 
@@ -11,12 +14,27 @@ import json
 # Muestra el indice
 def index(request):
     context = {'articulos': 'inicio'}
+    context = {**context, **user_context(request)} # Esto fusiona dos dict
     return render(request, 'landing-page.html', context)
 
 
 # Pagina de test
 def test_page(request):
     return render(request, 'adminlanding.html')
+
+
+# Retorna los datos basicos del usuario logeado
+def user_context(request):
+    current_user=Usuario.objects.get(user=request.user)
+    context = {'name': str(current_user),
+               'rut' : current_user.rut,
+               'mail' : current_user.user.email}
+    return context
+
+
+def user_profile(request):
+    context = user_context(request)
+    return render(request, 'user_profile.html', context)
 
 
 # Muestra la pagina de login si el usuario no esta logeado
@@ -47,15 +65,15 @@ def register_page(request):
                 usuario_form = UsuarioForm(request.POST, instance=user.usuario)
                 usuario_form.full_clean()
                 usuario_form.save()
-                return render(request, 'landing-page.html')
+                return render(request, 'landing-page.html', user_context(request))
         else:
             user_form = UserForm()
             usuario_form = UsuarioForm()
         return render(request, 'UserSys/register.html',
-                      {
+                      {**{
                           'user_form': user_form,
                           'usuario_form': usuario_form
-                      })
+                      }, **user_context(request)})
 
 
 # Logea al usuario dentro de la página y lo lleva al landing page que corresponda.
@@ -69,7 +87,7 @@ def login_user(request):
         if user.is_active:
             login(request, user)
         # TODO: Llevar al landing page admin/user segun el tipo de usuario.
-        return render(request, 'landing-page.html')
+        return render(request, 'landing-page.html', user_context(request))
     else:
         # TODO: Crear la pagina de error (?)
         return render(request, 'fail-page.html')
@@ -100,6 +118,7 @@ def search_articulos(request):
     else:
         results = Articulo.objects.filter(nombre__icontains=search_term)
     context = {'articulos': results}
+    context = {**context, **user_context(request)} # Esto fusiona dos dict
     return render(request, 'resultados_articulos.html', context)
 
 
