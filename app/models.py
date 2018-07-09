@@ -72,7 +72,7 @@ class Espacio(models.Model):
         ordering = ["id"]
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 
 class PedidoArticulo(models.Model):

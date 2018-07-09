@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
-from .models import Articulo, PedidoEspacio
+from .models import Articulo, PedidoEspacio, Usuario, Espacio
 from .forms import UserForm, UsuarioForm
 import json
 
@@ -16,7 +16,7 @@ def index(request):
 
 # Pagina de test
 def test_page(request):
-    return render(request, 'landing-page.html')
+    return render(request, 'adminlanding.html')
 
 
 # Muestra la pagina de login si el usuario no esta logeado
@@ -102,10 +102,17 @@ def search_articulos(request):
     context = {'articulos': results}
     return render(request, 'resultados_articulos.html', context)
 
+
+def admin_landing(request):
+    context = {'usuarios' : Usuario.objects.all(),
+               'articulos' : Articulo.objects.all(),
+               'espacios' : Espacio.objects.all(),
+               'pedidoespacios' : PedidoEspacio.objects.all()}
+    return render(request, 'adminlanding.html', context)
+
 def cambiar_estado_pendientes(request):
     if(request.method == 'POST'):
-        ids = request.POST['id']
-        for id in ids:
+        for id in request.POST.getlist('id'):
             if 'entregado' in request.POST:
                 pedidoespacio = PedidoEspacio.objects.get(id_espacio=id)
                 pedidoespacio.estado = 3
@@ -114,3 +121,8 @@ def cambiar_estado_pendientes(request):
                 pedidoespacio = PedidoEspacio.objects.get(id_espacio=id)
                 pedidoespacio.estado = 2
                 pedidoespacio.save()
+    context = {'usuarios' : Usuario.objects.all(),
+               'articulos' : Articulo.objects.all(),
+               'espacios' : Espacio.objects.all(),
+               'pedidoespacios' : PedidoEspacio.objects.all()}
+    return render(request, 'adminlanding.html', context)
