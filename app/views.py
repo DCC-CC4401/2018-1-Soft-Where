@@ -22,7 +22,7 @@ def test_page(request):
 
 # Retorna los datos basicos del usuario logeado
 def user_context(request):
-    current_user=Usuario.objects.get(user=request.user)
+    current_user = Usuario.objects.get(user=request.user)
     context = {'name': str(current_user),
                'rut' : current_user.rut,
                'mail' : current_user.user.email}
@@ -62,15 +62,17 @@ def register_page(request):
                 usuario_form = UsuarioForm(request.POST, instance=user.usuario)
                 usuario_form.full_clean()
                 usuario_form.save()
+                # TODO: ¿El usuario deberia logearse inmediatamente al registrarse?
+                login(request, user)
                 return render(request, 'landing-page.html', user_context(request))
         else:
             user_form = UserForm()
             usuario_form = UsuarioForm()
         return render(request, 'UserSys/register.html',
-                      {**{
+                      {
                           'user_form': user_form,
-                          'usuario_form': usuario_form
-                      }, **user_context(request)})
+                          'usuario_form': usuario_form}
+                      )
 
 
 # Logea al usuario dentro de la página y lo lleva al landing page que corresponda.
@@ -94,7 +96,7 @@ def login_user(request):
 @login_required
 def logout_user(request):
     logout(request)
-    return render(request, 'stater-page.html')
+    return render(request, 'UserSys/login.html')
 
 
 def isNum(data):
