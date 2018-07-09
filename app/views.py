@@ -200,8 +200,13 @@ def ficha_articulo(request):
                    'historial_reservas': historial_reservas_articulo}
         return render(request, 'ficha-articulo.html', context)
 
+@transaction.atomic
 def pedir_articulo(request):
     if request.method == 'GET':
-        articulo_id = request.GET['articulo_id']
+        articulo = Articulo.objects.get(id=request.GET['articulo_id'])
+        articulo_id = articulo.id
         user_id = user_context(request).id
-        PedidoArticulo.objects.create(id_articulo=articulo_id, id_usuario=user_id, estado=1)
+        if (articulo.estado == 1):
+            PedidoArticulo.objects.create(id_articulo=articulo_id, id_usuario=user_id, estado=1)
+        else:
+            pass
