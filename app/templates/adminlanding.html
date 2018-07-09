@@ -218,6 +218,12 @@ h1 {
                                           <td>consectetur</td>
                                           <td>adipiscing</td>
                                           <td>elit</td>
+                                            <td>sdfsfd 345
+                                                {% for usuario in usuarios %}
+                                                    lskdhfl
+                                                    {{ usuario.user }}
+                                                {% endfor %}
+                                            </td>
                                         </tr>
                                         <tr>
                                           <td>1,003</td>
@@ -397,7 +403,82 @@ h1 {
                         </div>
                     </div>
                     <div class="tab-pane fade" id="pedidos" role="tabpanel" aria-labelledby="pedidos-tab">
-                        .2.
+                        grilla.
+                        <br>
+                        <hr>
+                        <div class="row">
+                                <div class="col-6">
+                                    <form action="{% url 'cambiar_estado_pendientes' %}" method="post">
+                                        <h2>
+                                            Pendientes
+                                        </h2>
+
+                                            <input type="submit" value="entregado" name="entregado" />
+                                            <input type="submit" value="rechazado" name="rechazado" />
+                                        <hr>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-sm">
+                                              <thead>
+                                                <tr>
+                                                    <th></th>
+                                                  <th>ID</th>
+                                                  <th>Artículo</th>
+                                                    <th>Usuario</th>
+                                                    <th>Fecha de Préstamo</th>
+                                                    <th>Fecha de Solicitud</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                    <td><input type="checkbox" id="selec" name="selec" value="id"></td>
+                                                  <td>1,001</td>
+                                                  <td>Lorem</td>
+                                                  <td>ipsum</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                              {% for pedidoespacio in pedidoespacios %}
+                                                  {% if pedidoespacio.estado == 1 %}
+                                                      <td><input type="checkbox" id="selec" name="selec" value="{{ pedidoespacio.id_espacio }}"></td>
+                                                      <td>{{ pedidoespacio.id_espacio }}</td>
+                                                      <td>nombre_usuario</td>
+                                                      <td>{{ pedidoespacio.fecha_pedido }}</td>
+                                                      <td>{{ pedidoespacio.fecha_pedido }}</td>
+                                                  {% endif %}
+                                              {% endfor %}
+
+                                              </tbody>
+                                            </table>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-6">
+                                    <h2>Pedidos</h2>
+                                    <hr>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-sm">
+                                          <thead>
+                                            <tr>
+                                                <th></th>
+                                              <th>ID</th>
+                                              <th>Artículo</th>
+                                                <th>Usuario</th>
+                                                <th>Fecha de Préstamo</th>
+                                                <th>Fecha de Solicitud</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <td>1,001</td>
+                                              <td>Lorem</td>
+                                              <td>ipsum</td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

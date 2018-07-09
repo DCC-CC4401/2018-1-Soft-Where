@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
-from .models import Articulo
+from .models import Articulo, PedidoEspacio
 from .forms import UserForm, UsuarioForm
 import json
 
@@ -101,3 +101,16 @@ def search_articulos(request):
         results = Articulo.objects.filter(nombre__icontains=search_term)
     context = {'articulos': results}
     return render(request, 'resultados_articulos.html', context)
+
+def cambiar_estado_pendientes(request):
+    if(request.method == 'POST'):
+        ids = request.POST['id']
+        for id in ids:
+            if 'entregado' in request.POST:
+                pedidoespacio = PedidoEspacio.objects.get(id_espacio=id)
+                pedidoespacio.estado = 3
+                pedidoespacio.save()
+            if 'rechazado' in request.POST:
+                pedidoespacio = PedidoEspacio.objects.get(id_espacio=id)
+                pedidoespacio.estado = 2
+                pedidoespacio.save()
