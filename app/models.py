@@ -47,7 +47,7 @@ class Articulo(models.Model):
 
     #Methods
     def __str__(self):
-        return self.nombre
+        return self.id
 
     #def get_absolute_url(self):
 
