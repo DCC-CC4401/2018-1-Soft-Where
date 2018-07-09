@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
-from .models import Articulo, Usuario
+from .models import Articulo, Usuario, PedidoArticulo, PedidoEspacio
 from .forms import UserForm, UsuarioForm
 import json
 
@@ -17,20 +17,31 @@ def index(request):
 
 # Pagina de test
 def test_page(request):
-    return render(request, 'landing-page.html')
+    return render(request, 'landing-page.html', {
+        'name': 'Jocelyn Simmonds',
+        'rut': '12.345.678-9',
+        'mail': 'jsimmonds @ dcc.uchile.cl'
+    })
 
 
 # Retorna los datos basicos del usuario logeado
 def user_context(request):
-    current_user=Usuario.objects.get(user=request.user)
+    current_user = Usuario.objects.get(user=request.user)
     context = {'name': str(current_user),
-               'rut' : current_user.rut,
-               'mail' : current_user.user.email}
+               'rut': current_user.rut,
+               'mail': current_user.user.email}
     return context
 
 
 def user_profile(request):
     context = user_context(request)
+    # Los pedidos que son
+    current_user = str(Usuario.objects.get(user=request.user))
+    # pedidos_a = PedidoArticulo.objects.filter(id_usuario=current_user)
+    # pedidos_e = PedidoEspacio.objects.filter(id_usuario=current_user)
+    # pedidos_a.order_by("fecha_pedido")
+    # pedidos_e.order_by("fecha_pedido")
+    # context = {**context, **{'pedidos_articulos': pedidos_a, 'pedidos_espacios': pedidos_e}}
     return render(request, 'user_profile.html', context)
 
 
