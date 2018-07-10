@@ -1,6 +1,8 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
+from django import forms
 from django.contrib.auth.models import User
 from app.models import Usuario
+
 
 class UserForm(ModelForm):
     class Meta:
@@ -12,3 +14,9 @@ class UsuarioForm(ModelForm):
     class Meta:
         model = Usuario
         fields = {'rut', 'foto_link'}
+
+
+class MultipleCheckForm(forms.Form):
+    choices = forms.MultipleChoiceField(
+        widget = forms.CheckboxSelectMultiple,
+    )

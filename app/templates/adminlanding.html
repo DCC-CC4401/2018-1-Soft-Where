@@ -346,10 +346,10 @@
                                     {% csrf_token %}
                                         <h2>Préstamos</h2>
 
-                                        <input type="submit" value="todo", name="todo">
-                                        <input type="submit" value="vigentes", name="vigentes">
-                                        <input type="submit" value="caducados", name="caducados">
-                                        <input type="submit" value="perdidos", name="perdidos">
+                                        <input type="submit" value="Todo", name="todo">
+                                        <input type="submit" value="Pendiente", name="vigentes">
+                                        <input type="submit" value="Rechazado", name="caducados">
+                                        <input type="submit" value="Concretado", name="perdidos">
                                     
                                         <hr>
                                         <div class="table-responsive">
@@ -370,11 +370,11 @@
                                                     <td>{{ pedidoarticulo.id_usuario.user.first_name }}</td>
                                                     <td>{{ pedidoarticulo.id_articulo.nombre}}</td>
                                                     <td>{{ pedidoarticulo.fecha_pedido }}</td>
-                                                      {% if pedidoarticulo.estado == pedidoarticulo.VIGENTE %}
+                                                      {% if pedidoarticulo.estado == pedidoarticulo.PENDIENTE  %}
                                                     <td>{{ pedidoarticulo.ESTADOS.0.1}}</td>
-                                                      {% elif pedidoarticulo.estado == pedidoarticulo.CADUCADO %}
+                                                      {% elif pedidoarticulo.estado == pedidoarticulo.REZACHADA %}
                                                     <td>{{ pedidoarticulo.ESTADOS.1.1}}</td>
-                                                      {% elif pedidoarticulo.estado == pedidoarticulo.PERDIDO %}
+                                                      {% elif pedidoarticulo.estado == pedidoarticulo.CONCRETADA  %}
                                                     <td>{{ pedidoarticulo.ESTADOS.2.1}}</td>
                                                       {% endif %}
 
