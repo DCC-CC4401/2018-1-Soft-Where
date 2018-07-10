@@ -47,21 +47,15 @@ def user_context(request):
 # TODO: :)
 def user_profile(request):
     context = user_context(request)
-    # Los pedidos que son
     current_user = Usuario.objects.get(user=request.user)
-    pedidos_a = PedidoArticulo.objects.filter(id_usuario=current_user.get_id())
-    pedidos_e = PedidoEspacio.objects.filter(id_usuario=current_user.get_id())
-    pedidos = list(chain(pedidos_e,pedidos_a))
-    fecha_actual = datetime.now()
+    reservas_a = PedidoArticulo.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__gt=datetime.now())
+    reservas_e = PedidoEspacio.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__gt=datetime.now())
+    # Los prestamos estan en los requisitos...
+    # prestamos_a = PedidoArticulo.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__lt=datetime.now())
+    # prestamos_e = PedidoEspacio.objects.filter(id_usuario_id=current_user.get_id(), fecha_pedido__lt=datetime.now())
+    reservas = sorted(chain(reservas_a,reservas_e),key=lambda instance: instance.fecha_pedido)[:10]
     # TODO: Terminar esto.
-    # Las reservas son pedidos donde la fecha de inicio es menor a la fecha actual.
-    # Los prestamos son pedidos donde la fecha de inicia es mayor a la fecha actual y el estado no es 1 ni 2.
-    reservas = ''
-    prestamos = ''
-    espacios = Espacio.objects.filter(id_usuario=current_user.get_id())
-    articulos = Articulo.objects.filter(id_usuario=current_user.get_id())
-    # Dejar TO DO cargao
-    context = {**context, **{'reservas': reservas, 'pedidos': prestamos}}
+    context = {**context, **{'reservas': reservas}}
     return render(request, 'user_profile.html', context)
 
 
