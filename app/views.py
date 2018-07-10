@@ -24,13 +24,15 @@ def test_page(request):
 
 # Retorna los datos basicos del usuario logeado
 def user_context(request):
-    current_user=Usuario.objects.get(user=request.user)
-    context = {'name': str(current_user),
+    current_user = Usuario.objects.get(user=request.user)
+    context = {'id':current_user.get_id,
+               'name': str(current_user),
                'rut' : current_user.rut,
                'mail' : current_user.user.email}
     return context
 
 
+# TODO: :)
 def user_profile(request):
     context = user_context(request)
     return render(request, 'user_profile.html', context)
@@ -51,7 +53,12 @@ def login_page(request):
             if user is not None:
                 login(request, user)
                 return render(request, 'landing-page.html', user_context(request))
+            else:
+                # TODO: Mensaje de error por password
+                return render(request, 'UserSys/login.html')
+        # TODO: No se como se llega aqui...
         return render(request, 'UserSys/login.html')
+
 
 # Muestra la pagina de registro si el usuario no esta logeado
 @transaction.atomic
@@ -88,8 +95,27 @@ def register_page(request):
         return render(request, 'UserSys/register.html',
                       {
                           'user_form': user_form,
-                          'usuario_form': usuario_form
-                      })
+                          'usuario_form': usuario_form}
+                      )
+
+
+@login_required
+def update_user(request):
+    # TODO: completar el cambio de password
+    if request.method == 'POST':
+        current_user = Usuario.objects.get(user=request.user)
+        old_password = request.POST['old_password']
+        new_password = request.POST['new_password']
+        username = current_user.username
+        current_user.set_password(new_password)
+        current_user.save()
+        renewed_user = authenticate(username=username,
+                                    password=new_password,
+                                    request=request)
+        if renewed_user is not None:
+            login(request, renewed_user)
+            return render(request, 'landing-page.html', user_context(request))
+
 
 
 def isNum(data):
@@ -123,6 +149,7 @@ def admin_landing(request):
                **user_context(request)}
     return render(request, 'adminlanding.html', context)
 
+
 def cambiar_estado_pendientes(request):
     if(request.method == 'POST'):
         for id in request.POST.getlist('id'):
@@ -141,6 +168,7 @@ def cambiar_estado_pendientes(request):
                    'pedidoarticulos' : PedidoArticulo.objects.all().order_by('fecha_pedido')},
                 **user_context(request)}
         return render(request, 'adminlanding.html', context)
+
 
 def filtrar_prestamos(request):
     if(request.method == 'POST'):
@@ -162,6 +190,7 @@ def filtrar_prestamos(request):
             **user_context(request)}
         return render(request, 'adminlanding.html', context)
 
+
 def ficha_articulo(request):
     if request.method == 'GET':
         articulo_id = request.GET['articulo_id']
@@ -170,3 +199,14 @@ def ficha_articulo(request):
         context = {'articulo' : articulo,
                    'historial_reservas': historial_reservas_articulo}
         return render(request, 'ficha-articulo.html', context)
+
+@transaction.atomic
+def pedir_articulo(request):
+    if request.method == 'GET':
+        articulo = Articulo.objects.get(id=request.GET['articulo_id'])
+        articulo_id = articulo.id
+        user_id = user_context(request).id
+        if (articulo.estado == 1):
+            PedidoArticulo.objects.create(id_articulo=articulo_id, id_usuario=user_id, estado=1)
+        else:
+            pass

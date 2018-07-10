@@ -2,12 +2,12 @@ Cosas por hacer:
 [Pls marcar con "✓" las cosas ya hechas, le da estilo]
 
 General:
-	- Página de Login. (User sin haber iniciado sesión)
-	- Página de Registro. (Inserte nombre...)
+	✓ Página de Login. (User sin haber iniciado sesión)
+	✓ Página de Registro. (Inserte nombre...)
 
 LP Users:
-    - Buscador de artículos [Diapos 4 y 5]
-    - Resultados de búsqueda.
+    ✓ Buscador de artículos [Diapos 4 y 5]
+    ✓ Resultados de búsqueda.
     - Grilla de espacios [Diapo 6]
 
 Perfil Usuario:
@@ -21,6 +21,7 @@ Ficha espacios:
     - Para hacer en Tarea 4 (yey!) [No tiene diapo :c]
 
 LP Admins:
-    - Página de Users [Diapo 18]
-    - Página de Artículos [Diapo 19]
-    - Página de Espacios [Diapo 20]
+    Por hacer: Que sea la página por defecto :)
+    ✓ Página de Users [Diapo 18]
+    ✓ Página de Artículos [Diapo 19]
+    ✓ Página de Espacios [Diapo 20]
