@@ -28,7 +28,7 @@ class Articulo(models.Model):
     ENPRESTAMO = 2
     ENREPARACION = 3
     PERDIDO = 4
-    ESTADOS = (
+    ESTADOS = ( # Estado actual
         (DISPONIBLE, "Disponible"),
         (ENPRESTAMO, "En préstamo"),
         (ENREPARACION, "En reparación"),
@@ -59,7 +59,7 @@ class Espacio(models.Model):
     VIGENTE = 1
     CADUCADO = 2
     PERDIDO = 3
-    ESTADOS = (
+    ESTADOS = ( # Estado actual
         (VIGENTE, "Vigente"),
         (CADUCADO, "Caducado"),
         (PERDIDO, "Perdido")
