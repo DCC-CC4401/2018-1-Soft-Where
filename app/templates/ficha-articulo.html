@@ -89,6 +89,11 @@
                         </div>
 
                     </div>
+                    <div class="row">
+                        {% if modificable %}
+                            {% include 'modificar_articulo.html' %}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
