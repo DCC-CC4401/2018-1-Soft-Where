@@ -55,76 +55,62 @@
         }
 
         /*
- * Base structure
-    dashboard
- */
+         * Base structure
+            dashboard
+         */
 
-/* Move down content because we have a fixed navbar that is 50px tall */
-body {
-  padding-top: 150px;
-}
+        /* Move down content because we have a fixed navbar that is 50px tall */
+        body {
+          padding-top: 150px;
+        }
 
-/*
- * Typography
- */
+        /*
+         * Typography
+         */
 
-h1 {
-  margin-bottom: 20px;
-  padding-bottom: 9px;
-  border-bottom: 1px solid #eee;
-}
+        h1 {
+          margin-bottom: 20px;
+          padding-bottom: 9px;
+          border-bottom: 1px solid #eee;
+        }
 
-/*
- * Sidebar
- */
+        /*
+         * Sidebar
+         */
 
-.sidebar {
-  position: fixed;
-  top: 151px;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  padding: 20px;
-  overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-  border-right: 1px solid #eee;
-}
+        .sidebar {
+          position: fixed;
+          top: 151px;
+          bottom: 0;
+          left: 0;
+          z-index: 1000;
+          padding: 20px;
+          overflow-x: hidden;
+          overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+          border-right: 1px solid #eee;
+        }
 
-/* Sidebar navigation */
-.sidebar {
-  padding-left: 0;
-  padding-right: 0;
-}
+        /* Sidebar navigation */
+        .sidebar {
+          padding-left: 0;
+          padding-right: 0;
+        }
 
-.sidebar .nav {
-  margin-bottom: 20px;
-}
+        .sidebar .nav {
+          margin-bottom: 20px;
+        }
 
-.sidebar .nav-item {
-  width: 100%;
-}
+        .sidebar .nav-item {
+          width: 100%;
+        }
 
-.sidebar .nav-item + .nav-item {
-  margin-left: 0;
-}
+        .sidebar .nav-item + .nav-item {
+          margin-left: 0;
+        }
 
-.sidebar .nav-link {
-  border-radius: 0;
-}
-
-/*
- * Dashboard
- */
-
- /* Placeholders */
-.placeholders {
-  padding-bottom: 3rem;
-}
-
-.placeholder img {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
+        .sidebar .nav-link {
+          border-radius: 0;
+        }
 
     </style>
 {% endblock %}
@@ -252,9 +238,18 @@ h1 {
                                           <tbody>
                                           {% for articulo in articulos %}
                                               <tr>
-                                                <td>{{ articulo.id }}</td>
-                                                <td>{{ articulo.nombre }}</td>
+                                                  <form id="ficha_articulo_form" action="{% url 'ficha_articulo' %}">
+                                                <td>
+                                                    {{ articulo.id }}
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:{}" onclick="document.getElementById('ficha_articulo_form').submit();">
+                                                        {{ articulo.nombre }}
+                                                    </a>
+                                                    <input type="hidden" id="articulo_id" name="articulo_id" value="{{ articulo.id }}">
+                                                </td>
                                                 <td>{{ articulo.estado }}</td>
+                                                  </form>
                                               </tr>
                                           {% endfor %}
                                           </tbody>
