@@ -44,17 +44,24 @@ def user_context(request):
     return context
 
 
-# TODO: :)
+# Carga el perfil de usuario
 def user_profile(request):
     context = user_context(request)
     current_user = Usuario.objects.get(user=request.user)
     reservas_a = PedidoArticulo.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__gt=datetime.now())
     reservas_e = PedidoEspacio.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__gt=datetime.now())
+    lista_reservas_a =list()
+    lista_reservas_e = list()
+    for reserva in reservas_a:
+        tupla = (reserva, Articulo.objects.get(id=reserva.id).nombre)
+        lista_reservas_a.append(tupla)
+    for reserva in reservas_e:
+        tupla = (reserva, Espacio.objects.get(id=reserva.id).nombre)
+        lista_reservas_e.append(tupla)
     # Los prestamos estan en los requisitos...
     # prestamos_a = PedidoArticulo.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__lt=datetime.now())
     # prestamos_e = PedidoEspacio.objects.filter(id_usuario_id=current_user.get_id(), fecha_pedido__lt=datetime.now())
-    reservas = sorted(chain(reservas_a,reservas_e),key=lambda instance: instance.fecha_pedido)[:10]
-    # TODO: Terminar esto.
+    reservas = sorted(chain(lista_reservas_a,lista_reservas_e),key=lambda instance: instance[0].fecha_pedido)[:10]
     context = {**context, **{'reservas': reservas}}
     return render(request, 'user_profile.html', context)
 
@@ -62,8 +69,7 @@ def user_profile(request):
 @transaction.atomic
 def login_page(request):
     if request.user.is_authenticated:
-        # TODO: Otra pagina o algo así
-        return user_landing(request)
+        return landing_page(request)
     else:
         if request.method == 'POST':
             username = request.POST['username']
@@ -85,8 +91,7 @@ def login_page(request):
 @transaction.atomic
 def register_page(request):
     if request.user.is_authenticated:
-        # TODO: Otra pagina o algo así
-        return user_landing(request)
+        return landing_page(request)
     else:
         if request.method == 'POST':
             user_form = UserForm(request.POST)
