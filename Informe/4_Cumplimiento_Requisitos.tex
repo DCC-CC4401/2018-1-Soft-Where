@@ -1,4 +1,6 @@
-req
+Los requisitos se dividieron en grupos a modo de facilitar el trabajo sobre cada uno de ellos, de forma tal que la funcionalidad base pudiera dar cuenta de un conjunto de ellos en lugar de tan solo uno. Por ejemplo, si el sistema requiere de la inscripción de un usuario, era necesario que el usuario pudiera crear su cuenta, pudiera inscribirse y pudiera salir de su cuenta.
+De esta forma, los requisitos se dividieron en: Requisitos generales (1-2, 4-5, 7-8, 12, 14-15), landing page para personas naturales (16-18), perfil de usuario (23, 25-26, 28), ficha de artículo (37-40), landing page para administradores (51, 54-56).
+Del primer grupo de requisitos, podemos ver como estos se cumplen en...
 \texttt{
 Requisitos generales:
 	
@@ -29,7 +31,9 @@ Requisitos generales:
 	
 	15.Cada artículo y espacio debe tener un identificador único en el sistema.
 		[ITEM:ID en la DB]
-
+}
+De los requisitos asociados al landing page para personas naturales, podemos ver como estos se cumplen en...
+\texttt{
 Landing page para personas naturales:
 	
 	16.El sistema debe permitir buscar artículos.
@@ -39,8 +43,10 @@ Landing page para personas naturales:
 		[Gracias por decirme qué cosas deben estar en la base de datos :)]
 
 	18.El sistema debe mostrar una grilla con los horarios en que están reservadas los espacios administrados por el CEI.
-		[La grilla]
-
+		[La grilla]	
+}
+Respecto del perfil de usuario, los requisitos que aquí se cumplen son...
+\texttt{
 Perfil del usuario (vista por el dueño del perfil):
 
 	23.El sistema debe mostrar el nombre, RUT y correo electrónico del usuario.
@@ -53,8 +59,10 @@ Perfil del usuario (vista por el dueño del perfil):
 		[Historial junto con reservas acutales]
 
 	28.El sistema deber permitir que el usuario marque una o más reservas pendientes y eliminarlas.
-		[El Historial debe ser interactivo]
-
+		[El Historial debe ser interactivo]	
+}
+Por otra parte, de los requisitos asociados a la ficha del artículo...
+\texttt{
 Ficha de un artículo:
 	37.El sistema debe mostrar la siguiente información para un artículo: nombre, foto, texto descriptivo y estado actual (disponible, en préstamo, en reparación, perdido).
 		[Modelo para los artículos]
@@ -66,16 +74,18 @@ Ficha de un artículo:
 		[Herramientas de gestión para admins]
 
 	40.En el caso de una persona natural, el sistema debe permitirle al usuario indicar que quiere reservar el artículo, indicando el rango de fecha y horas del préstamo solicitado.
-		[Herraminetas de gestión para users]
-
-Ficha de un espacio:
+		[Herraminetas de gestión para users]	
+}
+Finalmente, los requisitos asociados directamente con la landing page de los administradores...
+\texttt{
+Landing page administradores
 	51.El sistema debe mostrar una grilla con los horarios en que están reservadas los espacios administrados por el CEI.
 		[La grilla de las cosas.]
 
 	54.El sistema debe mostrar un listado de todas las reservas pendientes en el sistema, ordenados por fecha (más nuevos al inicio de la lista).
 			
-
 	55.El sistema debe permitir que el administrador marque una o más reservas pendientes, pudiendo cambiar su estado a entregado o rechazado.
 		
-
-	56.El sistema debe mostrar un listado de todas los préstamos en el sistema, ordenados por fecha (más nuevos al inicio de la lista). El sistema debe permitir filtrar los préstamos por estado (vigentes, caducados, perdidos).}
+	56.El sistema debe mostrar un listado de todas los préstamos en el sistema, ordenados por fecha (más nuevos al inicio de la lista). El sistema debe permitir filtrar los préstamos por estado (vigentes, caducados, perdidos).}	
+}
+Cabe hacer notar que la funcionalidad desarrollada para una parte, se aprovecha también para otra parte del sistema.
