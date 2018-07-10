@@ -44,10 +44,10 @@ Perfil del usuario (vista por el dueño del perfil):
 	✓ 23.El sistema debe mostrar el nombre, RUT y correo electrónico del usuario.
 		[Bienvenido: <USER> (<RUT>) <USERBLALBA>@<dominio>]
 	
-	? 25.El sistema debe mostrar si el usuario está habilitado para crear reservas y concretar préstamos.
+	✓ 25.El sistema debe mostrar si el usuario está habilitado para crear reservas y concretar préstamos.
 		[USER_STATE==YES]
 	
-	26.El sistema debe mostrar un listado de las últimas 10 reservas realizadas por el usuario, ordenados por fecha (más nuevos al inicio de la lista), indicando cuales están pendientes, cuales fueron rechazadas y cuales ya fueron concretadas.
+	✓ 26.El sistema debe mostrar un listado de las últimas 10 reservas realizadas por el usuario, ordenados por fecha (más nuevos al inicio de la lista), indicando cuales están pendientes, cuales fueron rechazadas y cuales ya fueron concretadas.
 		[Historial junto con reservas acutales]
 
 	28.El sistema deber permitir que el usuario marque una o más reservas pendientes y eliminarlas.

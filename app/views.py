@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
 from .models import Articulo, Usuario, PedidoArticulo, PedidoEspacio, Espacio
-from .forms import UserForm, UsuarioForm
+from .forms import UserForm, UsuarioForm, MultipleCheckForm
 from itertools import chain
 from datetime import datetime
 import json
@@ -48,16 +48,23 @@ def user_context(request):
 def user_profile(request):
     context = user_context(request)
     current_user = Usuario.objects.get(user=request.user)
-    reservas_a = PedidoArticulo.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__gt=datetime.now())
-    reservas_e = PedidoEspacio.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__gt=datetime.now())
-    lista_reservas_a =list()
+    reservas_a = PedidoArticulo.objects.filter(id_usuario_id=current_user.get_id()) #, fecha_devolucion__gt=datetime.now())
+    reservas_e = PedidoEspacio.objects.filter(id_usuario_id=current_user.get_id()) #, fecha_devolucion__gt=datetime.now())
+    lista_reservas_a = list()
     lista_reservas_e = list()
     for reserva in reservas_a:
-        tupla = (reserva, Articulo.objects.get(id=reserva.id).nombre)
-        lista_reservas_a.append(tupla)
+        try:
+            tupla = (reserva, Articulo.objects.get(id=reserva.id_articulo.id).nombre)
+            lista_reservas_a.append(tupla)
+        except Articulo.DoesNotExist:
+            continue
+
     for reserva in reservas_e:
-        tupla = (reserva, Espacio.objects.get(id=reserva.id).nombre)
-        lista_reservas_e.append(tupla)
+        try:
+            tupla = (reserva, Espacio.objects.get(id=reserva.id_espacio.id).nombre)
+            lista_reservas_e.append(tupla)
+        except Espacio.DoesNotExist:
+            pass
     # Los prestamos estan en los requisitos...
     # prestamos_a = PedidoArticulo.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__lt=datetime.now())
     # prestamos_e = PedidoEspacio.objects.filter(id_usuario_id=current_user.get_id(), fecha_pedido__lt=datetime.now())
@@ -177,6 +184,16 @@ def admin_landing(request):
     return render(request, 'adminlanding.html', context)
 
 
+def delete_prestamos(request):
+    form = MultipleCheckForm(request.POST)
+    if request.method == 'POST' and form.is_valid():
+        if 'delete' in request.POST:
+            for item in form.cleaned_data['choices']:
+
+                item.delete()
+    return user_profile(request)
+
+
 def cambiar_estado_pendientes(request):
     if(request.method == 'POST'):
         for id in request.POST.getlist('id'):
@@ -223,8 +240,8 @@ def ficha_articulo(request):
         articulo_id = request.GET['articulo_id']
         articulo = Articulo.objects.get(id=articulo_id)
         historial_reservas_articulo = PedidoArticulo.objects.filter(id_articulo=1).order_by('fecha_pedido')
-        context = {'articulo' : articulo,
-                   'historial_reservas': historial_reservas_articulo}
+        context = {**{'articulo' : articulo,
+                   'historial_reservas': historial_reservas_articulo}, **user_context(request)}
         return render(request, 'ficha-articulo.html', context)
 
 @transaction.atomic
