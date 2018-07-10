@@ -199,10 +199,12 @@ h1 {
                                       </thead>
                                       <tbody>
                                         {% for usuario in usuarios %}
+                                            <tr>
                                             <td>{{ usuario.user.first_name }}</td>
                                             <td>{{ usuario.user.last_name }}</td>
                                             <td>{{ usuario.user.username }}</td>
                                             <td>{{ usuario.estado }}</td>
+                                            </tr>
                                         {% endfor %}
                                       </tbody>
                                     </table>

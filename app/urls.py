@@ -4,11 +4,11 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.landing_page, name='index'),
     path('register', views.register_page, name='registerPage'),
     path('login', views.login_page, name='login'),
     path('testpage', views.test_page, name='testPage'),
-    path('adminlanding', views.admin_landing, name='adminLanding'),
+    # path('adminlanding', views.admin_landing, name='adminLanding'),
     path('cambiar_estado_pendientes', views.cambiar_estado_pendientes, name='cambiar_estado_pendientes'),
     path('filtrar_prestamos', views.filtrar_prestamos, name='filtrar_prestamos'),
     re_path(r'^searchArticulos/$', views.search_articulos, name='searchArticulos'),

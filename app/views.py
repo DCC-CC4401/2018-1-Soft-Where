@@ -10,8 +10,16 @@ from datetime import datetime
 import json
 
 
-# Muestra el indice
-def index(request):
+# Carga la landing page, y separa el usuario según el tipo
+def landing_page(request):
+    if request.user.has_perm('app.is_admin'):
+        return admin_landing(request)
+    else:
+        return user_landing(request)
+
+
+# Muestra el indice para usuario normal:
+def user_landing(request):
     context = {'articulos': 'inicio'}
     if request.user.is_authenticated:
         context = {**context, **user_context(request)} # Esto fusiona dos dict
@@ -61,7 +69,7 @@ def user_profile(request):
 def login_page(request):
     if request.user.is_authenticated:
         # TODO: Otra pagina o algo así
-        return index(request)
+        return user_landing(request)
     else:
         if request.method == 'POST':
             username = request.POST['username']
@@ -71,7 +79,7 @@ def login_page(request):
                                 request=request)
             if user is not None:
                 login(request, user)
-                return render(request, 'landing-page.html', user_context(request))
+                return landing_page(request)
             else:
                 # TODO: Mensaje de error por password
                 return render(request, 'UserSys/login.html')
@@ -84,7 +92,7 @@ def login_page(request):
 def register_page(request):
     if request.user.is_authenticated:
         # TODO: Otra pagina o algo así
-        return index(request)
+        return user_landing(request)
     else:
         if request.method == 'POST':
             user_form = UserForm(request.POST)
@@ -106,8 +114,9 @@ def register_page(request):
                                     request=request)
                 if user is not None:
                     login(request, user)
-                    return render(request, 'landing-page.html', user_context(request))
-                return render(request, 'landing-page.html')
+                    return landing_page(request)
+                # ?
+                return 1/0
         else:
             user_form = UserForm()
             usuario_form = UsuarioForm()
@@ -133,7 +142,7 @@ def update_user(request):
                                     request=request)
         if renewed_user is not None:
             login(request, renewed_user)
-            return render(request, 'landing-page.html', user_context(request))
+            return landing_page(request)
 
 
 
