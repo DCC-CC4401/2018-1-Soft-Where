@@ -15,4 +15,5 @@ urlpatterns = [
     # re_path(r'^cambiar_estado_pendientes/$', views.cambiar_estado_pendientes, name='cambiar_estado_pendientes'),
     path('ficha_articulo', views.ficha_articulo, name='ficha_articulo'),
     path('profile', views.user_profile, name='user_profile'),
+    path('modificar_articulo', views.modificar_articulo, name='modificar_articulo'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
@@ -220,7 +220,8 @@ def ficha_articulo(request):
         articulo = Articulo.objects.get(id=articulo_id)
         historial_reservas_articulo = PedidoArticulo.objects.filter(id_articulo=articulo_id).order_by('fecha_pedido')
         context = {**{'articulo' : articulo,
-                   'historial_reservas': historial_reservas_articulo},
+                   'historial_reservas': historial_reservas_articulo,
+                      'modificable': request.user.has_perm('app.is_admin')},
             **user_context(request)}
         return render(request, 'ficha-articulo.html', context)
     elif request.method == 'POST':
@@ -242,6 +243,20 @@ def ficha_articulo(request):
                    'historial_reservas': historial_reservas_articulo},
             **user_context(request)}
         return render(request, 'ficha-articulo.html', context)
+
+def modificar_articulo(request):
+    articulo_id = request.POST['id_articulo']
+    articulo = Articulo.objects.get(id=articulo_id)
+    usuario_id = request.POST['id_usuario']
+    usuario = Usuario.objects.get(user=usuario_id)
+    articulo.nombre = request.POST['nombre']
+    articulo.text_desct = request.POST['descripcion']
+    articulo.estado = request.POST['estado']
+
+    articulo.save()
+
+    url = 'ficha_articulo?articulo_id=' + articulo_id
+    return HttpResponseRedirect(url)
 
 @transaction.atomic
 def pedir_articulo(request):
