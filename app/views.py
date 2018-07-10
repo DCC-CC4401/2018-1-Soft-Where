@@ -3,8 +3,11 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
-from .models import Articulo, PedidoEspacio, Usuario, Espacio, PedidoArticulo
+from .models import Articulo, Usuario, PedidoArticulo, PedidoEspacio, Espacio
 from .forms import UserForm, UsuarioForm
+from itertools import chain
+from datetime import datetime
+import json
 
 
 # Muestra el indice
@@ -29,12 +32,28 @@ def user_context(request):
                'name': str(current_user),
                'rut' : current_user.rut,
                'mail' : current_user.user.email}
+
     return context
 
 
 # TODO: :)
 def user_profile(request):
     context = user_context(request)
+    # Los pedidos que son
+    current_user = Usuario.objects.get(user=request.user)
+    pedidos_a = PedidoArticulo.objects.filter(id_usuario=current_user.get_id())
+    pedidos_e = PedidoEspacio.objects.filter(id_usuario=current_user.get_id())
+    pedidos = list(chain(pedidos_e,pedidos_a))
+    fecha_actual = datetime.now()
+    # TODO: Terminar esto.
+    # Las reservas son pedidos donde la fecha de inicio es menor a la fecha actual.
+    # Los prestamos son pedidos donde la fecha de inicia es mayor a la fecha actual y el estado no es 1 ni 2.
+    reservas = ''
+    prestamos = ''
+    espacios = Espacio.objects.filter(id_usuario=current_user.get_id())
+    articulos = Articulo.objects.filter(id_usuario=current_user.get_id())
+    # Dejar TO DO cargao
+    context = {**context, **{'reservas': reservas, 'pedidos': prestamos}}
     return render(request, 'user_profile.html', context)
 
 

@@ -20,7 +20,8 @@ class Usuario(models.Model):
         return self.user.first_name + " " + self.user.last_name
 
     def get_id(self):
-        return self.id
+        return self.user.id
+
 
 class Articulo(models.Model):
     DISPONIBLE = 1
