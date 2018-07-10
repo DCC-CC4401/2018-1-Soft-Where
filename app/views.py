@@ -3,8 +3,10 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
-from .models import Articulo, PedidoEspacio, Usuario, Espacio, PedidoArticulo
+from .models import Articulo, Usuario, PedidoArticulo, PedidoEspacio, Espacio
 from .forms import UserForm, UsuarioForm
+from itertools import chain
+from datetime import datetime
 import json
 
 
@@ -14,7 +16,7 @@ def index(request):
     if request.user.is_authenticated:
         context = {**context, **user_context(request)} # Esto fusiona dos dict
     else:
-        pass
+        return login_page(request)
     return render(request, 'landing-page.html', context)
 
 
@@ -25,15 +27,33 @@ def test_page(request):
 
 # Retorna los datos basicos del usuario logeado
 def user_context(request):
-    current_user=Usuario.objects.get(user=request.user)
-    context = {'name': str(current_user),
+    current_user = Usuario.objects.get(user=request.user)
+    context = {'id': current_user.get_id(),
+               'name': str(current_user),
                'rut' : current_user.rut,
                'mail' : current_user.user.email}
+
     return context
 
 
+# TODO: :)
 def user_profile(request):
     context = user_context(request)
+    # Los pedidos que son
+    current_user = Usuario.objects.get(user=request.user)
+    pedidos_a = PedidoArticulo.objects.filter(id_usuario=current_user.get_id())
+    pedidos_e = PedidoEspacio.objects.filter(id_usuario=current_user.get_id())
+    pedidos = list(chain(pedidos_e,pedidos_a))
+    fecha_actual = datetime.now()
+    # TODO: Terminar esto.
+    # Las reservas son pedidos donde la fecha de inicio es menor a la fecha actual.
+    # Los prestamos son pedidos donde la fecha de inicia es mayor a la fecha actual y el estado no es 1 ni 2.
+    reservas = ''
+    prestamos = ''
+    espacios = Espacio.objects.filter(id_usuario=current_user.get_id())
+    articulos = Articulo.objects.filter(id_usuario=current_user.get_id())
+    # Dejar TO DO cargao
+    context = {**context, **{'reservas': reservas, 'pedidos': prestamos}}
     return render(request, 'user_profile.html', context)
 
 
@@ -53,8 +73,11 @@ def login_page(request):
                 login(request, user)
                 return render(request, 'landing-page.html', user_context(request))
             else:
-                return render(request, 'login.html')
+                # TODO: Mensaje de error por password
+                return render(request, 'UserSys/login.html')
+        # TODO: No se como se llega aqui...
         return render(request, 'UserSys/login.html')
+
 
 # Muestra la pagina de registro si el usuario no esta logeado
 @transaction.atomic
@@ -91,8 +114,27 @@ def register_page(request):
         return render(request, 'UserSys/register.html',
                       {
                           'user_form': user_form,
-                          'usuario_form': usuario_form
-                      })
+                          'usuario_form': usuario_form}
+                      )
+
+
+@login_required
+def update_user(request):
+    # TODO: completar el cambio de password
+    if request.method == 'POST':
+        current_user = Usuario.objects.get(user=request.user)
+        old_password = request.POST['old_password']
+        new_password = request.POST['new_password']
+        username = current_user.username
+        current_user.set_password(new_password)
+        current_user.save()
+        renewed_user = authenticate(username=username,
+                                    password=new_password,
+                                    request=request)
+        if renewed_user is not None:
+            login(request, renewed_user)
+            return render(request, 'landing-page.html', user_context(request))
+
 
 
 def isNum(data):
@@ -126,6 +168,7 @@ def admin_landing(request):
                **user_context(request)}
     return render(request, 'adminlanding.html', context)
 
+
 def cambiar_estado_pendientes(request):
     if(request.method == 'POST'):
         for id in request.POST.getlist('id'):
@@ -144,6 +187,7 @@ def cambiar_estado_pendientes(request):
                    'pedidoarticulos' : PedidoArticulo.objects.all().order_by('fecha_pedido')},
                 **user_context(request)}
         return render(request, 'adminlanding.html', context)
+
 
 def filtrar_prestamos(request):
     if(request.method == 'POST'):
@@ -165,6 +209,7 @@ def filtrar_prestamos(request):
             **user_context(request)}
         return render(request, 'adminlanding.html', context)
 
+
 def ficha_articulo(request):
     if request.method == 'GET':
         articulo_id = request.GET['articulo_id']
@@ -173,3 +218,14 @@ def ficha_articulo(request):
         context = {'articulo' : articulo,
                    'historial_reservas': historial_reservas_articulo}
         return render(request, 'ficha-articulo.html', context)
+
+@transaction.atomic
+def pedir_articulo(request):
+    if request.method == 'GET':
+        articulo = Articulo.objects.get(id=request.GET['articulo_id'])
+        articulo_id = articulo.id
+        user_id = user_context(request).id
+        if (articulo.estado == 1):
+            PedidoArticulo.objects.create(id_articulo=articulo_id, id_usuario=user_id, estado=1)
+        else:
+            pass

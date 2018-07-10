@@ -19,6 +19,9 @@ class Usuario(models.Model):
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
 
+    def get_id(self):
+        return self.user.id
+
 
 class Articulo(models.Model):
     DISPONIBLE = 1
@@ -47,7 +50,7 @@ class Articulo(models.Model):
 
     #Methods
     def __str__(self):
-        return self.id
+        return self.nombre
 
     #def get_absolute_url(self):
 
@@ -86,15 +89,15 @@ class PedidoArticulo(models.Model):
     )
     id_usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     id_articulo = models.ForeignKey('Articulo', on_delete=models.CASCADE)
-    fecha_pedido = models.DateField(auto_now_add=True)
-    fecha_devolucion = models.DateField(null=True)
+    fecha_pedido = models.DateTimeField(auto_now_add=True)
+    fecha_devolucion = models.DateTimeField(null=True)
     estado = models.PositiveSmallIntegerField(ESTADOS, help_text="Estado posible para un articulo o espacio")
 
     class Meta:
         ordering = ["fecha_pedido", "id_usuario"]
 
     def __str__(self):
-        return self.id_articulo + " " + self.id_usuario
+        return self.id_articulo + "" + self.id_usuario
 
 
 class PedidoEspacio(models.Model):
@@ -108,12 +111,12 @@ class PedidoEspacio(models.Model):
     )
     id_usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     id_espacio = models.ForeignKey('Espacio', on_delete=models.CASCADE)
-    fecha_pedido = models.DateField(auto_now_add=True)
-    fecha_devolucion = models.DateField(null=True)
+    fecha_pedido = models.DateTimeField(auto_now_add=True)
+    fecha_devolucion = models.DateTimeField(null=True)
     estado = models.PositiveSmallIntegerField(ESTADOS, help_text="Estado posible para un articulo o espacio")
 
     class Meta:
         ordering = ["fecha_pedido", "id_usuario"]
 
     def __str__(self):
-        return self.id_espacio + self.id_usuario
+        return self.id_espacio + "" +self.id_usuario
