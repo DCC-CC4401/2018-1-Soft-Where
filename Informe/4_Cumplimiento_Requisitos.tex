@@ -1,91 +1,31 @@
 Los requisitos se dividieron en grupos a modo de facilitar el trabajo sobre cada uno de ellos, de forma tal que la funcionalidad base pudiera dar cuenta de un conjunto de ellos en lugar de tan solo uno. Por ejemplo, si el sistema requiere de la inscripción de un usuario, era necesario que el usuario pudiera crear su cuenta, pudiera inscribirse y pudiera salir de su cuenta.
-De esta forma, los requisitos se dividieron en: Requisitos generales (1-2, 4-5, 7-8, 12, 14-15), landing page para personas naturales (16-18), perfil de usuario (23, 25-26, 28), ficha de artículo (37-40), landing page para administradores (51, 54-56).
-Del primer grupo de requisitos, podemos ver como estos se cumplen en...
-\texttt{
-Requisitos generales:
-	
-	1. El sistema debe permitir que personas naturales creen cuentas en el sistema, solicitando su nombre, RUT, correo electrónico y una contraseña.
-		[Página para registrarse donde los datos se guardan en BD]
+De esta forma, los requisitos se dividieron en: Requisitos generales (1-2, 4) Sistema de reservas y prestamos (5, 7-8, 12, 14-15), landing page para personas naturales (16-18), perfil de usuario (23, 25-26, 28), ficha de artículo (37-40), landing page para administradores (51, 54-56).
+Del primer grupo de requisitos, podemos ver como estos se cumplen en las siguientes imágenes:
 
-	2. Todo usuario debe autentificarse para acceder al sistema, usando el correo electrónico que tiene registrado en el sistema y su contraseña.
-		[Página para logearse.]
+[Pagina login/ comentario: Página inicial de recepción a usuarios sin cuenta. Pide iniciar sesión (req 2) o crear cuenta (req 1) para poder acceder a los servicios del sistema.]
+[Pag creación usuario / comentario: Página de creación de usuario (req 1). Todo usuario creado de esta forma es una persona natural, y solo los administradores pueden cambiar una cuenta a cuenta de administración (req 4).]
 
-	4. El sistema debe considerar 2 tipos de usuarios: administrador y persona natural (estudiante, funcionario, etc.).
-		[]
+Del sistema de reservas y prestamos, podemos apreciar como se resuelven los requisitos establecidos en la siguiente imagen de la interfaz que se implementa:
 
-	5. El sistema debe permitir que personas naturales realicen reservas de artículos.
-		[Página para reservar]
+[Solicitud de prestamos/comentario: Se aprecia como funciona el sistema de solicitud de prestamos. Se puede observar que solo se pueden solicitar durante los días habiles (req 14), pero otros detalles como las restricciones de tiempo (req 12) e identificadores únicos (req 15) no se puede apreciar por su propia naturaleza interna.]
 
-	7. El sistema debe llevar un historial de las reservas realizadas por una persona natural, registrándose el usuario, fecha y hora de la reserva.
-		[Página del historial]
+De los requisitos asociados al landing page para personas naturales, podemos ver como estos se cumplen en las siguientes imágenes:
 
-	8. El sistema debe llevar un historial de los préstamos autorizados por un
-	administrador, registrándose el usuario, fecha y hora del préstamo.
-		[POST/GET de la DB de cierta info.]
+[Landing page con busqueda/ comentario: Página de inicio para persona natural recién conectada. Se puede apreciar como el usuario puede buscar artículos (req 16) y la barra de navegación a su perfil e historial de pedidos (req 23). Adicionalmente, se puede apreciar como la busqueda se puede restringuir según los criterios seleccionados por el usuario (req 17).]
+[Landing page con grilla/ comentario: Página de inicio para persona natural, en pestaña de busqueda de espacios. Se aprecia la "grilla" con los horarios de espacios reservados (req 18).]
 
-	12.La reserva de cualquier artículo debe realizarse al menos 1 hora antes de la fecha/hora de inicio del préstamo.
-		[Quizás desabilitar el préstamo para cosas la siguente hora actual del servidor.]
+Respecto del perfil de usuario, los requisitos que aquí se cumplen son los siguientes:
 
-	14.Solo se puede reservar artículos y espacios en días hábiles, en el horario 09:00 - 18:00.
-		[if hora<18 and hora>9 bla...]
-	
-	15.Cada artículo y espacio debe tener un identificador único en el sistema.
-		[ITEM:ID en la DB]
-}
-De los requisitos asociados al landing page para personas naturales, podemos ver como estos se cumplen en...
-\texttt{
-Landing page para personas naturales:
-	
-	16.El sistema debe permitir buscar artículos.
-		[Página de búsqueda]
-	
-	17.El sistema solo se debe mostrar los artículos que cumplen con los criterios de búsqueda especificados por el usuario. Inicialmente, deben considerar los siguientes criterios: identificador, nombre del artículo, rango de fechas y estado (disponible, en préstamo, en reparación, perdido).
-		[Gracias por decirme qué cosas deben estar en la base de datos :)]
+[Perfil de usuario/ comentario: Página de perfil del usuario (visto por su dueño). En esta imagen se puede apreciar los elementos propios del usuario (req 23), así como la disponibilidad de su cuenta para crear y concretar prestamos y reservas (req 25). Adicionalmente, se presenta un historial con las últimas 10 reservas realizadas por el usuario (req 7 y 26) y muestra la posibilidad de eliminarlas si estas aún no se concretan (req 28).]
 
-	18.El sistema debe mostrar una grilla con los horarios en que están reservadas los espacios administrados por el CEI.
-		[La grilla]	
-}
-Respecto del perfil de usuario, los requisitos que aquí se cumplen son...
-\texttt{
-Perfil del usuario (vista por el dueño del perfil):
+Por otra parte, de los requisitos asociados a la ficha del artículo, las siguientes imágenes muestran como se concretan y resuelven dichos requisitos:
 
-	23.El sistema debe mostrar el nombre, RUT y correo electrónico del usuario.
-		[Bienvenido: <USER> (<RUT>) <USERBLALBA>@<dominio>]
-	
-	25.El sistema debe mostrar si el usuario está habilitado para crear reservas y concretar préstamos.
-		[USER_STATE==YES]
-	
-	26.El sistema debe mostrar un listado de las últimas 10 reservas realizadas por el usuario, ordenados por fecha (más nuevos al inicio de la lista), indicando cuales están pendientes, cuales fueron rechazadas y cuales ya fueron concretadas.
-		[Historial junto con reservas acutales]
+[Ficha del artículo/ comentario: Página correspondiente a la ficha del artículo. Se puede apreciar como el artículo dispone de toda la información solicitada (req 37), junto con un resumen de los últimos pedidos hechos por el artículo (req 38). También se observa como el usuario, persona natural, puede hacer una solicitud de prestamo por este artículo (req 5 y 40).]
+[Ficha del artículo (vista admin)/ comentario: Página correspondiente a la ficha del artículo, visto por la cuenta de un administrador. Se ven los mismos elementos que en la vista por una persona natural, pero se añade la posibilidad de gestionar la información del artículo por el administrador (req 39).]
 
-	28.El sistema deber permitir que el usuario marque una o más reservas pendientes y eliminarlas.
-		[El Historial debe ser interactivo]	
-}
-Por otra parte, de los requisitos asociados a la ficha del artículo...
-\texttt{
-Ficha de un artículo:
-	37.El sistema debe mostrar la siguiente información para un artículo: nombre, foto, texto descriptivo y estado actual (disponible, en préstamo, en reparación, perdido).
-		[Modelo para los artículos]
+Finalmente, los requisitos asociados directamente con la landing page de los administradores se pueden ver en las siguientes imágenes del sistema, vistos por una cuenta de administrador:
 
-	38.El sistema también debe mostrar un resumen de las fechas en las cuales ha sido reservado el artículo.
-		[Historial por artículo]
-	
-	39.En el caso de los administradores, el sistema debe permitir gestionar la información de un artículo.
-		[Herramientas de gestión para admins]
+[LP de admin/comentarios: Página inicial de recepción para un administrador. Se aprecia el sistema de "grilla" para los horarios de reserva para los espacios administrados por el CEI (req 51). Se aprecian las reservas pendientes ordenadas por fecha (req 54), la posibilidad del administrador de marcas dichas reservas (req 55)]
+[LP de admin con prestamos pendientes/comentarios: Página inicial de recepción para un administrador, con listado de préstamos pendientes. Se aprecia el orden de los préstamos pendientes y la posibilidad de filtrar por estado (req 8 y 56).]
 
-	40.En el caso de una persona natural, el sistema debe permitirle al usuario indicar que quiere reservar el artículo, indicando el rango de fecha y horas del préstamo solicitado.
-		[Herraminetas de gestión para users]	
-}
-Finalmente, los requisitos asociados directamente con la landing page de los administradores...
-\texttt{
-Landing page administradores
-	51.El sistema debe mostrar una grilla con los horarios en que están reservadas los espacios administrados por el CEI.
-		[La grilla de las cosas.]
-
-	54.El sistema debe mostrar un listado de todas las reservas pendientes en el sistema, ordenados por fecha (más nuevos al inicio de la lista).
-			
-	55.El sistema debe permitir que el administrador marque una o más reservas pendientes, pudiendo cambiar su estado a entregado o rechazado.
-		
-	56.El sistema debe mostrar un listado de todas los préstamos en el sistema, ordenados por fecha (más nuevos al inicio de la lista). El sistema debe permitir filtrar los préstamos por estado (vigentes, caducados, perdidos).}	
-}
-Cabe hacer notar que la funcionalidad desarrollada para una parte, se aprovecha también para otra parte del sistema.
+Cabe hacer notar que la funcionalidad desarrollada para una parte, se aprovecha también para otra parte del sistema, por lo que ciertos requisitos se cumplen más de una vez.
