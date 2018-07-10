@@ -39,7 +39,8 @@ def user_context(request):
     context = {'id': current_user.get_id(),
                'name': str(current_user),
                'rut' : current_user.rut,
-               'mail' : current_user.user.email}
+               'mail' : current_user.user.email,
+               'is_admin' : current_user.user.has_perm('is_admin')}
 
     return context
 
@@ -217,9 +218,29 @@ def ficha_articulo(request):
     if request.method == 'GET':
         articulo_id = request.GET['articulo_id']
         articulo = Articulo.objects.get(id=articulo_id)
-        historial_reservas_articulo = PedidoArticulo.objects.filter(id_articulo=1).order_by('fecha_pedido')
-        context = {'articulo' : articulo,
-                   'historial_reservas': historial_reservas_articulo}
+        historial_reservas_articulo = PedidoArticulo.objects.filter(id_articulo=articulo_id).order_by('fecha_pedido')
+        context = {**{'articulo' : articulo,
+                   'historial_reservas': historial_reservas_articulo},
+            **user_context(request)}
+        return render(request, 'ficha-articulo.html', context)
+    elif request.method == 'POST':
+        articulo_id = request.POST['id_articulo']
+        articulo = Articulo.objects.get(id=articulo_id)
+        usuario_id = request.POST['id_usuario']
+        usuario = Usuario.objects.get(user=usuario_id)
+
+        fecha_prestamo = request.POST['fecha_inicio']
+        fecha_devolucion = request.POST['fecha_termino']
+
+        reserva = PedidoArticulo(id_usuario=usuario, id_articulo=articulo,
+                                 fecha_pedido=fecha_prestamo,
+                                 fecha_devolucion=fecha_devolucion,
+                                 estado=1)
+        reserva.save()
+        historial_reservas_articulo = PedidoArticulo.objects.filter(id_articulo=articulo_id).order_by('fecha_pedido')
+        context = {**{'articulo' : articulo,
+                   'historial_reservas': historial_reservas_articulo},
+            **user_context(request)}
         return render(request, 'ficha-articulo.html', context)
 
 @transaction.atomic
@@ -232,3 +253,7 @@ def pedir_articulo(request):
             PedidoArticulo.objects.create(id_articulo=articulo_id, id_usuario=user_id, estado=1)
         else:
             pass
+
+def reservar_articulo(request):
+    if(request.method == 'POST'):
+        idArticulo = request.POST['id_articulo']

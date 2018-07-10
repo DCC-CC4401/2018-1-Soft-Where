@@ -1,0 +1,26 @@
+<form action="{% url 'ficha_articulo' %}" method="post">
+    {% csrf_token %}
+
+    <input type="hidden" id="id_articulo" name="id_articulo" value="{{ articulo.id }}">
+    <input type="hidden" id="id_usuario" name="id_usuario" value="{{ id }}">
+
+    <div class="table-responsive" style="height: calc(50vh - 100px)">
+        <table class="table table-sm">
+            <tbody>
+            <tr>
+                <td>Fecha Inicio : </td>
+                <td><input id="fecha_inicio" name="fecha_inicio" type="datetime-local"></td>
+            </tr>
+            <tr>
+                <td>Fecha Término: </td>
+                <td><input id="fecha_termino" name="fecha_termino" type="datetime-local"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" name="reservar" value="reservar"></td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</form>
