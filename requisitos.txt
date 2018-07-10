@@ -1,31 +1,30 @@
 Requisitos generales:
 	
-	1. El sistema debe permitir que personas naturales creen cuentas en el sistema, solicitando su nombre, RUT, correo electrónico y una contraseña.
+	✓ 1. El sistema debe permitir que personas naturales creen cuentas en el sistema, solicitando su nombre, RUT, correo electrónico y una contraseña.
 		[Página para registrarse donde los datos se guardan en BD]
 
-	2. Todo usuario debe autentificarse para acceder al sistema, usando el correo electrónico que tiene registrado en el sistema y su contraseña.
+	✓ 2. Cualquier usuario debe autentificarse para acceder al sistema, usando el correo electrónico que tiene registrado en el sistema y su contraseña.
 		[Página para logearse.]
 
-	4. El sistema debe considerar 2 tipos de usuarios: administrador y persona natural (estudiante, funcionario, etc.).
+	? 4. El sistema debe considerar 2 tipos de usuarios: administrador y persona natural (estudiante, funcionario, etc.).
 		[]
 
 	5. El sistema debe permitir que personas naturales realicen reservas de artículos.
 		[Página para reservar]
 
-	7. El sistema debe llevar un historial de las reservas realizadas por una persona natural, registrándose el usuario, fecha y hora de la reserva.
+	✓ 7. El sistema debe llevar un historial de las reservas realizadas por una persona natural, registrándose el usuario, fecha y hora de la reserva.
 		[Página del historial]
 
-	8. El sistema debe llevar un historial de los préstamos autorizados por un
-	administrador, registrándose el usuario, fecha y hora del préstamo.
+	✓ 8. El sistema debe llevar un historial de los préstamos autorizados por un administrador, registrándose el usuario, fecha y hora del préstamo.
 		[POST/GET de la DB de cierta info.]
 
-	12.La reserva de cualquier artículo debe realizarse al menos 1 hora antes de la fecha/hora de inicio del préstamo.
+	✓ 12.La reserva de cualquier artículo debe realizarse al menos 1 hora antes de la fecha/hora de inicio del préstamo.
 		[Quizás desabilitar el préstamo para cosas la siguente hora actual del servidor.]
 
 	14.Solo se puede reservar artículos y espacios en días hábiles, en el horario 09:00 - 18:00.
 		[if hora<18 and hora>9 bla...]
 	
-	15.Cada artículo y espacio debe tener un identificador único en el sistema.
+	✓ 15.Cada artículo y espacio debe tener un identificador único en el sistema.
 		[ITEM:ID en la DB]
 
 Landing page para personas naturales:

@@ -25,7 +25,7 @@ def test_page(request):
 # Retorna los datos basicos del usuario logeado
 def user_context(request):
     current_user = Usuario.objects.get(user=request.user)
-    context = {'id':current_user.get_id,
+    context = {'id': current_user.get_id(),
                'name': str(current_user),
                'rut' : current_user.rut,
                'mail' : current_user.user.email}

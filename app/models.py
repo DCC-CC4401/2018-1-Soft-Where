@@ -19,6 +19,8 @@ class Usuario(models.Model):
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
 
+    def get_id(self):
+        return self.id
 
 class Articulo(models.Model):
     DISPONIBLE = 1
