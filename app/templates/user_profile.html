@@ -9,6 +9,10 @@
             -moz-border-radius: 8px;
             border-radius: 8px;
         }
+        .btn.btn-primary.btn-bad{
+            color: #ffffff;
+            background-color: #f03434;
+        }
     </style>
 {% endblock %}
 
@@ -32,21 +36,41 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
           <br>
-          <ul>
-              {% for reserva in reservas %}
-              <li>
-                {{  reserva }}:
-                  {% if reserva.estado == 1 %}
-                    asdf
-                  {% elif reserva.estado == 2 %}
-                    ????
-                  {% elif reserva.estado == 3 %}
-                    TODO
+            <form action="{% url 'delete_prestamos' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Borrar" name="delete" class="btn btn-primary btn-bad"/>
+          <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for reserva in reservas %}
+                <tr>
+                  <th scope="row"><div class="form-check">
+                <input type="checkbox" class="form-check-input" value="{{ reserva.0.id }}" name="choices">
+                </div>
+                  </th>
+                  <td>{{ reserva.1 }}</td>
+                  <td>    {% if reserva.0.estado == 1 %}
+                    <span class="dot yellow"></span>
+                         {{ reserva.0.ESTADOS.0.1}}
+                  {% elif reserva.0.estado == 2 %}
+                    <span class="dot red"></span>
+                         {{ reserva.0.ESTADOS.1.1}}
+                  {% elif reserva.0.estado == 3 %}
+                    <span class="dot green"></span>
+                         {{ reserva.0.ESTADOS.2.1}}
                   {% endif %}
-                <!-- FORM PARA HACER LA COSA -->
-              </li>
-              {% endfor %}
-          </ul>
+                    </td>
+                </tr>
+                  {% endfor %}
+
+              </tbody>
+          </table>
       </div>
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
           <br>

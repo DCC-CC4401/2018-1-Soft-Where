@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
 from .models import Articulo, Usuario, PedidoArticulo, PedidoEspacio, Espacio
-from .forms import UserForm, UsuarioForm
+from .forms import UserForm, UsuarioForm, MultipleCheckForm
 from itertools import chain
 from datetime import datetime
 import json
@@ -45,17 +45,31 @@ def user_context(request):
     return context
 
 
-# TODO: :)
+# Carga el perfil de usuario
 def user_profile(request):
     context = user_context(request)
     current_user = Usuario.objects.get(user=request.user)
-    reservas_a = PedidoArticulo.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__gt=datetime.now())
-    reservas_e = PedidoEspacio.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__gt=datetime.now())
+    reservas_a = PedidoArticulo.objects.filter(id_usuario_id=current_user.get_id()) #, fecha_devolucion__gt=datetime.now())
+    reservas_e = PedidoEspacio.objects.filter(id_usuario_id=current_user.get_id()) #, fecha_devolucion__gt=datetime.now())
+    lista_reservas_a = list()
+    lista_reservas_e = list()
+    for reserva in reservas_a:
+        try:
+            tupla = (reserva, Articulo.objects.get(id=reserva.id_articulo.id).nombre)
+            lista_reservas_a.append(tupla)
+        except Articulo.DoesNotExist:
+            continue
+
+    for reserva in reservas_e:
+        try:
+            tupla = (reserva, Espacio.objects.get(id=reserva.id_espacio.id).nombre)
+            lista_reservas_e.append(tupla)
+        except Espacio.DoesNotExist:
+            pass
     # Los prestamos estan en los requisitos...
     # prestamos_a = PedidoArticulo.objects.filter(id_usuario_id=current_user.get_id(),fecha_pedido__lt=datetime.now())
     # prestamos_e = PedidoEspacio.objects.filter(id_usuario_id=current_user.get_id(), fecha_pedido__lt=datetime.now())
-    reservas = sorted(chain(reservas_a,reservas_e),key=lambda instance: instance.fecha_pedido)[:10]
-    # TODO: Terminar esto.
+    reservas = sorted(chain(lista_reservas_a,lista_reservas_e),key=lambda instance: instance[0].fecha_pedido)[:10]
     context = {**context, **{'reservas': reservas}}
     return render(request, 'user_profile.html', context)
 
@@ -63,8 +77,7 @@ def user_profile(request):
 @transaction.atomic
 def login_page(request):
     if request.user.is_authenticated:
-        # TODO: Otra pagina o algo así
-        return user_landing(request)
+        return landing_page(request)
     else:
         if request.method == 'POST':
             username = request.POST['username']
@@ -86,8 +99,7 @@ def login_page(request):
 @transaction.atomic
 def register_page(request):
     if request.user.is_authenticated:
-        # TODO: Otra pagina o algo así
-        return user_landing(request)
+        return landing_page(request)
     else:
         if request.method == 'POST':
             user_form = UserForm(request.POST)
@@ -173,6 +185,16 @@ def admin_landing(request):
     return render(request, 'adminlanding.html', context)
 
 
+def delete_prestamos(request):
+    form = MultipleCheckForm(request.POST)
+    if request.method == 'POST' and form.is_valid():
+        if 'delete' in request.POST:
+            for item in form.cleaned_data['choices']:
+
+                item.delete()
+    return user_profile(request)
+
+
 def cambiar_estado_pendientes(request):
     if(request.method == 'POST'):
         for id in request.POST.getlist('id'):
@@ -199,11 +221,11 @@ def filtrar_prestamos(request):
         if 'todo' in request.POST:
             pedidoarticulosfiltrados = PedidoArticulo.objects.all()
         elif 'vigentes' in request.POST:
-            pedidoarticulosfiltrados =PedidoArticulo.objects.filter(estado=PedidoArticulo.VIGENTE)
+            pedidoarticulosfiltrados =PedidoArticulo.objects.filter(estado=PedidoArticulo.PENDIENTE)
         elif 'caducados' in request.POST:
-            pedidoarticulosfiltrados =PedidoArticulo.objects.filter(estado=PedidoArticulo.CADUCADO)
+            pedidoarticulosfiltrados =PedidoArticulo.objects.filter(estado=PedidoArticulo.RECHAZADA)
         elif 'perdidos' in request.POST:
-            pedidoarticulosfiltrados =PedidoArticulo.objects.filter(estado=PedidoArticulo.PERDIDO)
+            pedidoarticulosfiltrados =PedidoArticulo.objects.filter(estado=PedidoArticulo.CONCRETADA)
 
         context = {**{'usuarios' : Usuario.objects.all(),
                    'articulos' : Articulo.objects.all(),
@@ -222,6 +244,7 @@ def ficha_articulo(request):
         context = {**{'articulo' : articulo,
                    'historial_reservas': historial_reservas_articulo},
             **user_context(request)}
+
         return render(request, 'ficha-articulo.html', context)
     elif request.method == 'POST':
         if 'reservar' in request.POST:
